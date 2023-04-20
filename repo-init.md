@@ -21,6 +21,8 @@ forge install https://github.com/OpenZeppelin/openzeppelin-contracts
 
 # ref. https://github.com/opengsn/gsn/releases
 forge install opengsn/gsn@v3.0.0-beta.7
+#
+# once "v3*" gets merged to its main branch
 # forge install https://github.com/opengsn/gsn
 ```
 
