@@ -1,4 +1,4 @@
-TODO# Test local Avalanche network
+# Test local Avalanche network
 
 ### Install Go 
 
@@ -145,9 +145,12 @@ Download the Core wallet extension [here](https://core.app)
 **Step 1. Add the Avalanche C-chain local network to the Core using**
 
 `http://localhost:9650/ext/bc/C/rpc:`
+![image1](./core-wallet-step-1-1.png)
+![image2](./core-wallet-step-2-1.png)
 
 **Step 2. Import the test `ewoq` key using its hex-encoded private key**
 `56289e99c94b6912bfc12adc093c9b51124f0dc54ac7a766b2bc5ccf558d8027 :`
+![image3](./core-wallet-step-2-2.png)
 
 **Step 3. Make sure Core shows the same balance as the following commands:**
 
@@ -171,6 +174,7 @@ curl --location --request POST 'http://localhost:9650/ext/bc/P' \
 }'
 # {"jsonrpc":"2.0","result":{"balance":"30000000000000000",...
 ```
+![image4](./core-wallet-step-3.png)
 
 **Step 4. Transfer some tokens to another test key of zero balance. We will use the second key in the above JSON:**
 
@@ -181,7 +185,9 @@ curl http://localhost:9650/ext/bc/C/rpc \
 -H "Content-Type: application/json" \
 -d '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0x53C62F5d19f94556c4e9E9Ee97CeE274AB053399", "latest"],"id":0}'
 ```
-
+![image5](./core-wallet-step-4-1.png)
+![image6](./core-wallet-step-4-2.png)
+![image7](./core-wallet-step-4-3.png)
 **Step 5. Make sure the tokens got transfered by checking the balance of two accounts:**
 
 ```sh
