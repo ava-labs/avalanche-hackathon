@@ -11,49 +11,12 @@ cd /tmp
 
 mkdir -p /tmp/contracts/counter
 cat << EOF > /tmp/contracts/counter/Counter.sol
-// SPDX-License-Identifier: MIT
-
-pragma solidity ^0.8.13;
-
-contract Counter {
-    uint256 public number;
-    address public last;
-
-    event DebugAddress(address indexed _addr);
-
-    function setNumber(uint256 newNumber) public {
-        number = newNumber;
-
-        emit DebugAddress(msg.sender);
-        last = msg.sender;
-    }
-
-    function increment() public {
-        number++;
-
-        emit DebugAddress(msg.sender);
-        last = msg.sender;
-    }
-
-    function decrement() public {
-        require(number > 0, "Counter: decrement overflow");
-        number--;
-
-        emit DebugAddress(msg.sender);
-        last = msg.sender;
-    }
-
-    function getNumber() public view returns (uint256) {
-        return number;
-    }
-
-    function getLast() public view returns (address) {
-        return last;
-    }
-}
-EOF
-cat /tmp/contracts/counter/Counter.sol
 ```
+
+make sure to write this contract file locally
+use this link `https://github.com/ava-labs/avalanche-hackathon/blob/main/src/Counter.sol.`
+
+
 ```sh
 cd ./avalanche-hackathon
 forge create \
@@ -68,6 +31,7 @@ Deployer: 0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC
 Deployed to: 0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25
 Transaction hash: 0x7ff975ee51ef2dcec54d4e5801377079579dc0b697654bd7897f05fab317326a
 **To increment the counter:**
+```
 ```sh
 # use the "ewoq" key
 cast send \
