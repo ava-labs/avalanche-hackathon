@@ -6,7 +6,6 @@ And if you are testing against other networks than the local DEVNET (e.g., Glitc
 
 
 
-
 ```sh
 # make sure you have access to the simple counter contract file
 # https://github.com/ava-labs/avalanche-hackathon/blob/main/src/Counter.sol
