@@ -4,14 +4,6 @@ We will use [foundry](https://github.com/foundry-rs/foundry) to test simple smar
 
 And if you are testing against other networks than the local DEVNET (e.g., Glitch Hackathon DEVNET, Fuji public testnet), *please make sure to use the correct RPC URL (e.g., `--rpc-url=http://127.0.0.1:9650/ext/bc/C/rpc` only works for the local network)*
 
-To deploy a simple counter contract:
-
-```sh
-cd /tmp
-
-mkdir -p /tmp/contracts/counter
-cat << EOF > /tmp/contracts/counter/Counter.sol
-```
 
 make sure to write this contract file locally
 use this link `https://github.com/ava-labs/avalanche-hackathon/blob/main/src/Counter.sol.`
@@ -30,8 +22,9 @@ forge create \
 Deployer: 0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC
 Deployed to: 0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25
 Transaction hash: 0x7ff975ee51ef2dcec54d4e5801377079579dc0b697654bd7897f05fab317326a
-**To increment the counter:**
 ```
+
+**To increment the counter:**
 ```sh
 # use the "ewoq" key
 cast send \
