@@ -95,7 +95,7 @@ curl -X POST --data '{
 Then, you can get the current node ID as follows:
 
 ```json
-{"jsonrpc":"2.0","result":{"nodeID":"NodeID-6NeWXVweQgfHgxY4WLn1XKg5niPfUGsZn"...
+{"jsonrpc":"2.0","result":{"nodeID":"NodeID-6NeWXVweQgfHgxY4WLn1XKg5niPfUGsZn"
 ```
 
 **To get the network ID:**
