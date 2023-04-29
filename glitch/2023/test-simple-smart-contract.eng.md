@@ -5,7 +5,6 @@ We will use [foundry](https://github.com/foundry-rs/foundry) to test simple smar
 And if you are testing against other networks than the local DEVNET (e.g., Glitch Hackathon DEVNET, Fuji public testnet), *please make sure to use the correct RPC URL (e.g., `--rpc-url=http://127.0.0.1:9650/ext/bc/C/rpc` only works for the local network)*
 
 
-use this link `https://github.com/ava-labs/avalanche-hackathon/blob/main/src/Counter.sol.`
 
 
 ```sh
