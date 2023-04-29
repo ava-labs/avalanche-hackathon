@@ -12,7 +12,8 @@ go version
 
 ### Install Foundry
 
-We will use [Foundry](https://github.com/foundry-rs/foundry) to deploy and interact with smart contracts. Install [Foundry](https://github.com/foundry-rs/foundry)
+We will use [Foundry](https://github.com/foundry-rs/foundry) to deploy and interact with smart contracts. Please visit [Foundry installation](https://github.com/foundry-rs/foundry#installation) for further instructions.
+
 Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.
 
 ```sh
