@@ -28,6 +28,7 @@ Transaction hash: 0x7ff975ee51ef2dcec54d4e5801377079579dc0b697654bd7897f05fab317
 ```
 
 **To increment the counter:**
+
 ```sh
 # use the "ewoq" key
 cast send \
