@@ -56,3 +56,10 @@ git submodule update --init --recursive
 cd ${HOME}/avalanche-hackathon
 forge update
 ```
+
+```bash
+cd ${HOME}/avalanche-hackathon
+# vi ./lib/gsn/packages/contracts/src/forwarder/Forwarder.sol
+cp ./lib/gsn/packages/contracts/src/forwarder/Forwarder.sol src/Forwarder.sol
+cp ./lib/gsn/packages/contracts/src/forwarder/IForwarder.sol src/IForwarder.sol
+```
