@@ -4,7 +4,11 @@
 
 Welcome to Glitch Hackathon 2023! This page contains all the information you need to participate in the [Avalanche track mission](https://trinity-studio.notion.site/GLITCH-KOREA-TRACK-GUIDE-1509d049e1b84ef49f737af5398541c8). Please check out the following links to get access to our Hackathon infra (e.g., test tokens, wallet integration, chain RPCs).
 
-## (Optional) Step 1. Connect to local DEVNET and fund the wallet (local dev net == local network)
+## (Optional) Step 1. Connect to local DEVNET and fund the wallet
+
+아발란체는 테스트용으로 셋업한, 단기간만 쓰도록 설계된 네트워크를 데브넷이라 칭합니다.
+
+_In the world of Avalanche, we refer to short-lived, test Subnets as Devnets._ (source [HyperSDK](https://github.com/ava-labs/hypersdk/blob/0907bf7c016c3ab569952201270e37cdfb8592b1/examples/tokenvm/DEVNETS.md))
 
 로컬 아발란체 네트워크를 셋업해서, 빠른 환경에서 EVM 컨트랙트들을 테스트 할 수 있습니다. 아래 문서는 로컬 데브넷에 연결 및 지갑 연동을 어떻게 하는지를 설명합니다. 퍼블릭 테스트(Fuji)/메인넷 또는 글리치 해커톤 전용 데브넷을 이용하시는 경우, 이 단계는 건너 뛰어 주세요. 이 단게에서는 개발용 지갑에 앱 개발 및 컨트랙 배포에 필요한 토큰을 어떻게 충전하는지도 설명합니다.
 

@@ -1,15 +1,20 @@
 # Test local Avalanche network
 
+The easiest way to test your contract is to spin up a local DEVNET to use its C-Chain (EVM Chain).
+
 ### Install Go 
 
 AvalancheGo compilation requires Go. So, make sure your environment has Go installed.
+
 ```sh
 go version
 ```
 
-### Install Foundry 
+### Install Foundry
+
 We will use [Foundry](https://github.com/foundry-rs/foundry) to deploy and interact with smart contracts. Install [Foundry](https://github.com/foundry-rs/foundry)
 Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.
+
 ```sh
 forge --version
 cast --version
@@ -17,26 +22,26 @@ cast --version
 
 ### Download AvalancheGo code base
 
-First, Make directory to git clone 
-```sh
-mkdir -p ${HOME}/go/src/github.com/ava-labs
-cd ${HOME}/go/src/github.com/ava-labs
-```
-Second, Git clone the repository from [ava-labs/avalanchego](https://github.com/ava-labs/avalanchego)
+git clone the repository from [ava-labs/avalanchego](https://github.com/ava-labs/avalanchego):
+
 ```sh
 git clone git@github.com:ava-labs/avalanchego.git
 cd ./avalanchego
 ```
 
 ### Compile AvalancheGo code base
+
 ```sh
 cd ${HOME}/go/src/github.com/ava-labs/avalanchego
 ./scripts/build.sh
 find ./build
+
+# make sure your dev environment can execute the binary
 ./build/avalanchego --version
 ```
 
 ### Start the local AvalancheGo network
+
 ```sh
 cd ${HOME}/go/src/github.com/ava-labs/avalanchego
 ./build/avalanchego \
@@ -44,8 +49,8 @@ cd ${HOME}/go/src/github.com/ava-labs/avalanchego
 --staking-enabled=false \
 --db-type=memdb \
 --log-level=info
-```
-or to expose the 9650 port to all traffic
+To connect to this DEVNET outside of your dev environment (e.g., connect to the DEVNET running in a remote EC2 instance), you can optionally expose the 9650 port to allow all traffic with the `--http-host=0.0.0.0`. Note that you do not need to do this if you only test locally in your local dev environment (e.g., within your laptop):
+
 ```sh
 cd ${HOME}/go/src/github.com/ava-labs/avalanchego
 ./build/avalanchego \
@@ -57,8 +62,10 @@ cd ${HOME}/go/src/github.com/ava-labs/avalanchego
 ```
 
 ### Test the local AvalancheGo network endpoints
-Now the local Avalanche network has the following endpoints
-```sh
+
+Now this local Avalanche network has the following endpoints:
+
+```yaml
 http_rpc: http://localhost:9650
 http_rpc_x: http://localhost:9650/ext/bc/X
 http_rpc_p: http://localhost:9650/ext/bc/P
@@ -70,7 +77,7 @@ metamask_rpc_c: http://localhost:9650/ext/bc/C/rpc
 websocket_rpc_c: ws://localhost:9650/ext/bc/C/ws
 ```
 
-Next Codes are some examples about local Avalanche network
+Following are some of the examples you can test the above local DEVNET:
 
 **To get the currenet node ID:**
 ```sh
@@ -81,9 +88,10 @@ curl -X POST --data '{
 }' -H 'content-type:application/json;' http://localhost:9650/ext/info
 ```
 
-Then, you can get the current node ID as follows
+Then, you can get the current node ID as follows:
 
-`{"jsonrpc":"2.0","result":{"nodeID":"NodeID-6NeWXVweQgfHgxY4WLn1XKg5niPfUGsZn"...`
+```json
+{"jsonrpc":"2.0","result":{"nodeID":"NodeID-6NeWXVweQgfHgxY4WLn1XKg5niPfUGsZn"...
 
 **To get the network ID:**
 ```sh
@@ -94,18 +102,19 @@ curl -X POST --data '{
 }' -H 'content-type:application/json;' http://localhost:9650/ext/info
 ```
 
-Then, you can get the network ID as follows
+Then, you can get the network ID as follows:
 
-`{"jsonrpc":"2.0","result":{"networkID":"12345"},"id":1}`
+```json
+{"jsonrpc":"2.0","result":{"networkID":"12345"},"id":1}
 
-See [avalanchego/apis](https://docs.avax.network/apis/avalanchego/apis) for more
+See [avalanchego/apis](https://docs.avax.network/apis/avalanchego/apis) to try out other APIs.
 
 
 # Test the local AvalancheGo network with web wallets
 
-We will use the following test keys to integrate the Avalanche local network with Metamask. Note that the key that starts with ewoq is the canonical test key used in our local network, pre-funded through the genesis block:
+We will use the following test keys to integrate the Avalanche local DEVNET with the [Core wallet](https://core.app). Note that the key that starts with `ewoq` is the canonical test key used in our local DEVNET, pre-funded through the genesis block:
 
-```sh
+```json
 [
     {
         "key_type": "hot",
@@ -140,17 +149,17 @@ We will use the following test keys to integrate the Avalanche local network wit
 
 ### Core wallet
 
-Download the Core wallet extension [here](https://core.app)
+First, install the Core wallet extension [here](https://core.app).
 
 **Step 1. Add the Avalanche C-chain local network to the Core using**
 
 `http://localhost:9650/ext/bc/C/rpc:`
-![image1](./core-wallet-step-1-1.png)
-![image2](./core-wallet-step-2-1.png)
+![image1](./img/core-wallet-step-1-1.png)
+![image2](./img/core-wallet-step-2-1.png)
 
 **Step 2. Import the test `ewoq` key using its hex-encoded private key**
 `56289e99c94b6912bfc12adc093c9b51124f0dc54ac7a766b2bc5ccf558d8027 :`
-![image3](./core-wallet-step-2-2.png)
+![image3](./img/core-wallet-step-2-2.png)
 
 **Step 3. Make sure Core shows the same balance as the following commands:**
 
@@ -174,7 +183,7 @@ curl --location --request POST 'http://localhost:9650/ext/bc/P' \
 }'
 # {"jsonrpc":"2.0","result":{"balance":"30000000000000000",...
 ```
-![image4](./core-wallet-step-3.png)
+![image4](./img/core-wallet-step-3.png)
 
 **Step 4. Transfer some tokens to another test key of zero balance. We will use the second key in the above JSON:**
 
@@ -185,9 +194,9 @@ curl http://localhost:9650/ext/bc/C/rpc \
 -H "Content-Type: application/json" \
 -d '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0x53C62F5d19f94556c4e9E9Ee97CeE274AB053399", "latest"],"id":0}'
 ```
-![image5](./core-wallet-step-4-1.png)
-![image6](./core-wallet-step-4-2.png)
-![image7](./core-wallet-step-4-3.png)
+![image5](./img/core-wallet-step-4-1.png)
+![image6](./img/core-wallet-step-4-2.png)
+![image7](./img/core-wallet-step-4-3.png)
 **Step 5. Make sure the tokens got transfered by checking the balance of two accounts:**
 
 ```sh
