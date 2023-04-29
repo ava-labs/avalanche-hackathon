@@ -10,6 +10,9 @@ use this link `https://github.com/ava-labs/avalanche-hackathon/blob/main/src/Cou
 
 
 ```sh
+# make sure you have access to the simple counter contract file
+# https://github.com/ava-labs/avalanche-hackathon/blob/main/src/Counter.sol
+
 cd ./avalanche-hackathon
 forge create \
 --gas-price 700000000000 \
