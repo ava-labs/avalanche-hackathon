@@ -2,15 +2,15 @@
 
 We will use [foundry](https://github.com/foundry-rs/foundry) to test simple smart contracts using the C-Chain API.
 
-And if you are testing against other networks than the local DEVNET (e.g., Glitch Hackathon DEVNET, Fuji public testnet), *please make sure to use the correct RPC URL (e.g., `--rpc-url=http://127.0.0.1:9650/ext/bc/C/rpc` only works for the local network)*
-
-
+And if you are testing against other networks than the local DEVNET (e.g., Glitch Hackathon DEVNET, Fuji public testnet), *please make sure to use the correct RPC URL (e.g., `--rpc-url=http://127.0.0.1:9650/ext/bc/C/rpc` only works for the local network)*.
 
 ```sh
 # make sure you have access to the simple counter contract file
 # https://github.com/ava-labs/avalanche-hackathon/blob/main/src/Counter.sol
+#
 # to make sure your local git repo has all the deps
 # run the following two commands
+cd ./avalanche-hackathon
 git submodule update --init --recursive
 forge update
 
@@ -22,12 +22,13 @@ forge create \
 --rpc-url=http://127.0.0.1:9650/ext/bc/C/rpc \
 ./src/Counter.sol:Counter
 ```
+
 ```sh
+# Deployed address and transaction hash may differ
 Deployer: 0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC
 Deployed to: 0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25
 Transaction hash: 0x7ff975ee51ef2dcec54d4e5801377079579dc0b697654bd7897f05fab317326a
 ```
-deployed address and transaction hash may differ 
 
 **To increment the counter:**
 
@@ -62,5 +63,3 @@ cast call \
 "getLast()"
 # 0x0000000000000000000000008db97c7cece249c2b98bdc0226cc4c2a57bf52fc
 ```
-
-
