@@ -15,31 +15,39 @@ You will need the following in this tutorial:
 
 ## Avalanche gas relayer RPC URLs
 
-Ava Labs has already set up gas relayer servers for Glitch Hackathon. Use the following:
+Ava Labs has already set up dedicated gas relayer servers for Glitch Hackathon.
 
-```yaml
-TODO
-```
+Use the following:
 
 ```bash
+# copy this for examples here
 export GAS_RELAYER_RPC_URLS=TODO
 ```
 
 ## Trusted forwarder contract address
 
-Ava Labs has already deployed a trusted forwarder contract for Glitch Hackathon. Use the following:
+Ava Labs has already deployed a trusted forwarder contract for Glitch Hackathon.
 
-TODO
+Use the following:
+
+```bash
+# copy this for examples here
+export TRUSTED_FORWARDER_CONTRACT_ADDRESS=TODO
+```
 
 ## Registered domain name and verion
 
-Ava Labs has already registered domain name and version for Glitch Hackathon. Use the following:
+Ava Labs has already registered domain name and version for Glitch Hackathon.
+
+Use the following:
 
 TODO
 
 ## Registered type name and suffix data string
 
-Ava Labs has already registered type name and suffix data for Glitch Hackathon. Use the following:
+Ava Labs has already registered type name and suffix data for Glitch Hackathon.
+
+Use the following:
 
 TODO
 
@@ -98,8 +106,18 @@ ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 
 ### Step 2. get the current forwarder contract nonce of your key
 
-TODO
+```bash
+# use "0xb513578fAb80487a7Af50e0b2feC381D0BD8fa9D" as an example
+cast call \
+--rpc-url=${EVM_CHAIN_RPC_URL} \
+${TRUSTED_FORWARDER_CONTRACT_ADDRESS} \
+"getNonce(address)" \
+0xb513578fAb80487a7Af50e0b2feC381D0BD8fa9D
+# TODO
+```
 
 ### Step 3. create "increment" calldata
 
-TODO
+```bash
+# TODO
+```

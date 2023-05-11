@@ -8,11 +8,8 @@ Ava Labs already set up a dedicated Glitch Hackathon subnet (DEVNET) using [subn
 
 The RPC URL of the Glitch Hackathon subnet is:
 
-```yaml
-TODO
-```
-
 ```bash
+# copy this for examples here
 export EVM_CHAIN_RPC_URL=TODO
 ```
 

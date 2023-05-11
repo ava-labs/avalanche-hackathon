@@ -10,11 +10,8 @@ If you prefer testing with a Glitch Hackathon DEVNET, see [here](./2-connect-to-
 
 The RPC URL of the local DEVNNET is:
 
-```yaml
-http://localhost:9650/ext/bc/C/rpc
-```
-
 ```bash
+# copy this for examples here
 export EVM_CHAIN_RPC_URL=http://localhost:9650/ext/bc/C/rpc
 ```
 
