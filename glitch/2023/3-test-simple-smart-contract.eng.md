@@ -6,7 +6,7 @@ And if you are testing against other networks than the local DEVNET (e.g., Glitc
 
 You can get `EVM_CHAIN_RPC_URL` from [local DEVNET](./1-connect-to-local-devnet-and-fund-the-wallet.eng.md#rpc-url) or [Glitch Hackathon DEVNET](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md#rpc-url).
 
-```sh
+```bash
 # make sure you have access to the simple counter contract file
 # https://github.com/ava-labs/avalanche-hackathon/blob/main/src/Counter.sol
 #
@@ -15,7 +15,9 @@ You can get `EVM_CHAIN_RPC_URL` from [local DEVNET](./1-connect-to-local-devnet-
 cd ./avalanche-hackathon
 git submodule update --init --recursive
 forge update
+```
 
+```bash
 cd ./avalanche-hackathon
 forge create \
 --gas-price 700000000000 \
@@ -25,16 +27,16 @@ forge create \
 ./src/Counter.sol:Counter
 ```
 
-```sh
+```bash
 # Deployed address and transaction hash may differ
 Deployer: 0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC
 Deployed to: 0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25
-Transaction hash: 0x7ff975ee51ef2dcec54d4e5801377079579dc0b697654bd7897f05fab317326a
+Transaction hash: ...
 ```
 
 **To increment the counter:**
 
-```sh
+```bash
 # use the "ewoq" key
 cast send \
 --gas-price 700000000000 \
@@ -43,21 +45,29 @@ cast send \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
 0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25 \
 "increment()"
+```
 
+```bash
 # to see the debug events
 # use the transaction hash "0x8117b66ce18217f5b679596ebb2b01b395ae511917baa17a98dd597a2183a9a4"
 cast receipt \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
 0x8117b66ce18217f5b679596ebb2b01b395ae511917baa17a98dd597a2183a9a4
+```
 
+```bash
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
 0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25 \
 "getNumber()" | sed -r '/^\s*$/d' | tail -1
+```
 
+```bash
 cast --to-dec 0x0000000000000000000000000000000000000000000000000000000000000001
 # 1
+```
 
+```bash
 # set to "ewoq" key address
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \

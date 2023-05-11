@@ -118,7 +118,9 @@ cast call \
 ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "getNumber()" | sed -r '/^\s*$/d' | tail -1
 # 0x0000000000000000000000000000000000000000000000000000000000000001
+```
 
+```bash
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
 ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
@@ -297,7 +299,9 @@ cast call \
 ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "getNumber()" | sed -r '/^\s*$/d' | tail -1
 # ???
+```
 
+```bash
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
 ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
