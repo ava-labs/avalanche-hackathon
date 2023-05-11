@@ -1,6 +1,22 @@
-# Test local Avalanche network
+# Connect to local DEVNET and fund the wallet
+
+_In the world of Avalanche, we refer to short-lived, test Subnets as Devnets._ (source [HyperSDK](https://github.com/ava-labs/hypersdk/blob/0907bf7c016c3ab569952201270e37cdfb8592b1/examples/tokenvm/DEVNETS.md))
 
 The easiest way to test your contract is to spin up a local DEVNET to use its C-Chain (EVM Chain).
+
+If you prefer testing with a Glitch Hackathon DEVNET, see [here](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md#rpc-url).
+
+## RPC URL
+
+The RPC URL of the local DEVNNET is:
+
+```yaml
+http://localhost:9650/ext/bc/C/rpc
+```
+
+```bash
+export CHAIN_RPC_URL=http://localhost:9650/ext/bc/C/rpc
+```
 
 ## Install Go
 

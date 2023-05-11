@@ -19,6 +19,10 @@ You can set up a local Avalanche network to quickly test your EVM contracts. The
 
 ## (Optional) Step 2. Connect to Glitch Hackathon DEVNET and fund the wallet
 
+아발란체는 테스트용으로 셋업한, 단기간만 쓰도록 설계된 네트워크를 데브넷이라 칭합니다.
+
+_In the world of Avalanche, we refer to short-lived, test Subnets as Devnets._ (source [HyperSDK](https://github.com/ava-labs/hypersdk/blob/0907bf7c016c3ab569952201270e37cdfb8592b1/examples/tokenvm/DEVNETS.md))
+
 아바 랩스에서는 글리치 해커톤 전용 데브넷을 준비했습니다. 모든 참가자들한테는 무한정 테스트 토큰이 지원되어, 스마트 컨트랙트 및 커스텀 가상머신 개발 및 테스트에 용이합니다. 아래 문서는 글리치 데브넷에 연결 및 지갑 연동을 어떻게 하는지를 설명합니다. 위에 설명된 로컬 데브넷 또는 퍼블릭 테스트(Fuji)/메인넷을 사용하실 경우 이 단계는 건너 뛰어 주세요. 이 단게에서는 개발용 지갑에 앱 개발 및 컨트랙 배포에 필요한 토큰을 어떻게 충전하는지도 설명합니다.
 
 Ava Labs has set up a public DEVNET for Glitch Hackathon. All participants will get unlimited tokens, to easily test smart contracts and custom VM development. The links below show how to connect to the Glitch DEVNET and use a web wallet with the Glitch DEVNET. If you are using the local DEVNET above or public test(Fuji)/mainnet, you can skip this part. This step also explains how to fund your wallet that is needed for building apps and contract deployment.
@@ -35,15 +39,15 @@ Let's deploy a simple EVM smart contract with your wallet, and see how to execut
 - [한국어 문서](./3-test-simple-smart-contract.kor.md)
 - [영어 문서](./3-test-simple-smart-contract.eng.md)
 
-## Step 3. Deploy and test gasless transaction
+## Step 4. Test gasless transaction
 
-(이 단계는 글리치 해커톤 데브넷을 필요로 합니다. 가스비 없는 메타 트랙잭션을 사용하지 않는다면 이 단계를 건어 뛰어 주세요.)
+(이 단계는 [글리치 해커톤 데브넷](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md)을 필요로 합니다. 가스비 없는 메타 트랙잭션을 사용하지 않는다면 이 단계를 건어 뛰어 주세요.)
 
-(This step requires Glitch Hackathon DEVNET. If you do not plan to use no-gas-fee meta transaction, please skip this step.)
+(This step requires [Glitch Hackathon DEVNET](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md). If you do not plan to use no-gas-fee meta transaction, please skip this step.)
 
 아바 랩스에서 배포한 가스 릴레이 서버를 사용해서, 가스비 없이도 유저들이 거래를 할 수 있는 컨트랙을 배포합니다. EVM 체인의 네이티브 토큰이 없이도 유저들이 스마트 컨트랙을 사용할 수 있기 때문에 (예, NFT 민팅), 웹2와 같은 유저 경험을 제공합니다.
 
 Try the gas relay server from Ava Labs, to deploy contracts with gasless transactions. Even users with no EVM native token can interact with the smart contracts (e.g., NFT minting), which provides web2-like user experience.
 
-- [한국어 문서](./TODO.kor.md)
-- [영어 문서](./TODO.eng.md)
+- [한국어 문서](./4-test-gasless-transaction.kor.md)
+- [영어 문서](./4-test-gasless-transaction.eng.md)
