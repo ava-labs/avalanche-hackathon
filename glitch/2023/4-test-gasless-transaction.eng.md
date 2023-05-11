@@ -308,3 +308,9 @@ ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "getLast()"
 # ???
 ```
+
+## What's next?
+
+Now that you tried gasless transaction with the Ava Labs gas relayer, you can try writing your own EIP-2771 compliant contract. Please check out the following links:
+
+- [Writing GSN-capable contracts](https://docs.opengsn.org/contracts/#receiving-a-relayed-call)
