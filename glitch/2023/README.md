@@ -10,9 +10,9 @@ Welcome to [Glitch Hackathon 2023](https://glitch-hack.com)! This page contains 
 
 _In the world of Avalanche, we refer to short-lived, test Subnets as Devnets._ (source [HyperSDK](https://github.com/ava-labs/hypersdk/blob/0907bf7c016c3ab569952201270e37cdfb8592b1/examples/tokenvm/DEVNETS.md))
 
-로컬 아발란체 네트워크를 셋업해서, 빠른 환경에서 EVM 컨트랙트들을 테스트 할 수 있습니다. 아래 문서는 로컬 데브넷에 연결 및 지갑 연동을 어떻게 하는지를 설명합니다. 퍼블릭 테스트(Fuji)/메인넷 또는 글리치 해커톤 전용 데브넷을 이용하시는 경우, 이 단계는 건너 뛰어 주세요. 이 단게에서는 개발용 지갑에 앱 개발 및 컨트랙 배포에 필요한 토큰을 어떻게 충전하는지도 설명합니다.
+로컬 아발란체 네트워크를 셋업해서, 빠른 환경에서 EVM 컨트랙트들을 테스트 할 수 있습니다. 아래 문서는 로컬 데브넷에 연결 및 지갑 연동을 어떻게 하는지를 설명합니다. 퍼블릭 테스트(Fuji)/메인넷 또는 [글리치 해커톤 전용 데브넷](#step-2-connect-to-glitch-hackathon-devnet-and-fund-the-wallet)을 이용하시는 경우, 이 단계는 건너 뛰어 주세요. 이 단게에서는 개발용 지갑에 앱 개발 및 컨트랙 배포에 필요한 토큰을 어떻게 충전하는지도 설명합니다.
 
-You can set up a local Avalanche network to quickly test your EVM contracts. The links below show how to connect to the local DEVNET and use a web wallet with the local DEVNET. If you are using public test(Fuji)/mainnet or Glitch Hackathon DEVNET, you can skip this part. This step also explains how to fund your wallet that is needed for building apps and contract deployment.
+You can set up a local Avalanche network to quickly test your EVM contracts. The links below show how to connect to the local DEVNET and use a web wallet with the local DEVNET. If you are using public test(Fuji)/mainnet or [Glitch Hackathon DEVNET](#step-2-connect-to-glitch-hackathon-devnet-and-fund-the-wallet), you can skip this part. This step also explains how to fund your wallet that is needed for building apps and contract deployment.
 
 - [한국어 문서](./1-connect-to-local-devnet-and-fund-the-wallet.kor.md)
 - [영어 문서](./1-connect-to-local-devnet-and-fund-the-wallet.eng.md)
