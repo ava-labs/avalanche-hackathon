@@ -15,7 +15,7 @@ http://localhost:9650/ext/bc/C/rpc
 ```
 
 ```bash
-export CHAIN_RPC_URL=http://localhost:9650/ext/bc/C/rpc
+export EVM_CHAIN_RPC_URL=http://localhost:9650/ext/bc/C/rpc
 ```
 
 ## Install Go

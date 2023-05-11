@@ -70,7 +70,7 @@ Try calling the contract with zero balance account, and expect failures like the
 # maps to "0xb513578fAb80487a7Af50e0b2feC381D0BD8fa9D"
 cast send \
 --private-key=1af42b797a6bfbd3cf7554bed261e876db69190f5eb1b806acbd72046ee957c3 \
---rpc-url=${CHAIN_RPC_URL} \
+--rpc-url=${EVM_CHAIN_RPC_URL} \
 ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "increment()"
 # (code: -32000, message: gas required exceeds allowance (0), data: None)
@@ -84,13 +84,13 @@ Now let's see how to call such contract without paying any gas using our gas rel
 
 ```bash
 cast call \
---rpc-url=${CHAIN_RPC_URL} \
+--rpc-url=${EVM_CHAIN_RPC_URL} \
 ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "getNumber()" | sed -r '/^\s*$/d' | tail -1
 # 0x0000000000000000000000000000000000000000000000000000000000000001
 
 cast call \
---rpc-url=${CHAIN_RPC_URL} \
+--rpc-url=${EVM_CHAIN_RPC_URL} \
 ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "getLast()"
 # 0x00000000000000000000000009cdb41fcec6410a00c7751257c33e9ea0d0c835

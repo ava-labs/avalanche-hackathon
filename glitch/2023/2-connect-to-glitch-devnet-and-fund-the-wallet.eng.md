@@ -13,7 +13,7 @@ TODO
 ```
 
 ```bash
-export CHAIN_RPC_URL=TODO
+export EVM_CHAIN_RPC_URL=TODO
 ```
 
 ## TODO
