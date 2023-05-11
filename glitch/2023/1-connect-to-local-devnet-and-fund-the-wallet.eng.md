@@ -2,7 +2,7 @@
 
 The easiest way to test your contract is to spin up a local DEVNET to use its C-Chain (EVM Chain).
 
-## Install Go 
+## Install Go
 
 AvalancheGo compilation requires Go. So, make sure your environment has Go installed.
 
@@ -26,6 +26,7 @@ cast --version
 git clone the repository from [ava-labs/avalanchego](https://github.com/ava-labs/avalanchego):
 
 ```sh
+cd ${HOME}
 git clone git@github.com:ava-labs/avalanchego.git
 cd ./avalanchego
 ```
@@ -33,7 +34,7 @@ cd ./avalanchego
 ## Compile AvalancheGo code base
 
 ```sh
-cd ${HOME}/go/src/github.com/ava-labs/avalanchego
+cd ${HOME}/avalanchego
 ./scripts/build.sh
 find ./build
 
@@ -44,7 +45,7 @@ find ./build
 ## Start the local AvalancheGo network
 
 ```sh
-cd ${HOME}/go/src/github.com/ava-labs/avalanchego
+cd ${HOME}/avalanchego
 ./build/avalanchego \
 --network-id=local \
 --staking-enabled=false \
@@ -55,7 +56,7 @@ cd ${HOME}/go/src/github.com/ava-labs/avalanchego
 To connect to this DEVNET outside of your dev environment (e.g., connect to the DEVNET running in a remote EC2 instance), you can optionally expose the 9650 port to allow all traffic with the `--http-host=0.0.0.0`. Note that you do not need to do this if you only test locally in your local dev environment (e.g., within your laptop):
 
 ```sh
-cd ${HOME}/go/src/github.com/ava-labs/avalanchego
+cd ${HOME}/avalanchego
 ./build/avalanchego \
 --network-id=local \
 --http-host=0.0.0.0 \
@@ -159,7 +160,23 @@ First, install the Core wallet extension [here](https://core.app).
 
 **Step 1. Add the Avalanche C-chain local network to the Core using**:
 
-Use the RPC URL `http://localhost:9650/ext/bc/C/rpc` to connect to the local Avalanche DEVNET:
+Get the chain Id from the local DEVNET C-Chain:
+
+```bash
+curl http://localhost:9650/ext/bc/C/rpc \
+-X POST \
+-H "Content-Type: application/json" \
+--data '{"method":"eth_chainId","params":[],"id":1,"jsonrpc":"2.0"}'
+# {"jsonrpc":"2.0","id":1,"result":"0xa868"}
+```
+
+```bash
+# to convert the hexadecimal number to decimal
+echo $((16#a868))
+# 43112
+```
+
+Use this chain Id and the RPC URL `http://localhost:9650/ext/bc/C/rpc` to connect to the local Avalanche DEVNET:
 
 ![image1](./img/core-wallet-step-1-1.png)
 ![image2](./img/core-wallet-step-2-1.png)
