@@ -19,7 +19,7 @@ export EVM_CHAIN_RPC_URL=http://localhost:9650/ext/bc/C/rpc
 
 AvalancheGo compilation requires Go. So, make sure your environment has Go installed.
 
-```sh
+```bash
 go version
 ```
 
@@ -29,7 +29,7 @@ We will use [Foundry](https://github.com/foundry-rs/foundry) to deploy and inter
 
 Please visit [Foundry installation](https://github.com/foundry-rs/foundry#installation) for further instructions.
 
-```sh
+```bash
 forge --version
 cast --version
 ```
@@ -38,7 +38,7 @@ cast --version
 
 git clone the repository from [ava-labs/avalanchego](https://github.com/ava-labs/avalanchego):
 
-```sh
+```bash
 cd ${HOME}
 git clone git@github.com:ava-labs/avalanchego.git
 cd ./avalanchego
@@ -46,7 +46,7 @@ cd ./avalanchego
 
 ## Compile AvalancheGo code base
 
-```sh
+```bash
 cd ${HOME}/avalanchego
 ./scripts/build.sh
 find ./build
@@ -57,7 +57,7 @@ find ./build
 
 ## Start the local AvalancheGo network
 
-```sh
+```bash
 cd ${HOME}/avalanchego
 ./build/avalanchego \
 --network-id=local \
@@ -68,7 +68,7 @@ cd ${HOME}/avalanchego
 
 To connect to this DEVNET outside of your dev environment (e.g., connect to the DEVNET running in a remote EC2 instance), you can optionally expose the 9650 port to allow all traffic with the `--http-host=0.0.0.0`. Note that you do not need to do this if you only test locally in your local dev environment (e.g., within your laptop):
 
-```sh
+```bash
 cd ${HOME}/avalanchego
 ./build/avalanchego \
 --network-id=local \
@@ -98,7 +98,7 @@ Following are some of the examples you can test the above local DEVNET:
 
 **To get the currenet node ID:**
 
-```sh
+```bash
 curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -114,7 +114,7 @@ Then, you can get the current node ID as follows:
 
 **To get the network ID:**
 
-```sh
+```bash
 curl -X POST --data '{
     "jsonrpc":"2.0",
     "id"     :1,
@@ -203,9 +203,9 @@ Use the pre-funded key `56289e99c94b6912bfc12adc093c9b51124f0dc54ac7a766b2bc5ccf
 
 ![image3](./img/core-wallet-step-2-2.png)
 
-### Step 3. make sure Core shows the same balance
+### Step 3. check balance
 
-```sh
+```bash
 # ewoq key address is "0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC"
 curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
@@ -232,7 +232,7 @@ curl --location --request POST 'http://localhost:9650/ext/bc/P' \
 
 We will use the second key in the above JSON:
 
-```sh
+```bash
 # another key address is "0x53C62F5d19f94556c4e9E9Ee97CeE274AB053399"
 curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
@@ -246,7 +246,7 @@ curl ${EVM_CHAIN_RPC_URL} \
 
 ### Step 5. make sure the tokens got transfered by checking the balance of two accounts
 
-```sh
+```bash
 # ewoq key address is "0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC"
 curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
@@ -258,7 +258,7 @@ cast --to-dec 0x2946bc6b88d726f8f3a400
 # 49899999994566250000000000
 ```
 
-```sh
+```bash
 # another key address is "0x53C62F5d19f94556c4e9E9Ee97CeE274AB053399"
 curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
