@@ -171,12 +171,12 @@ We will use the following test keys to integrate the Avalanche local DEVNET with
 
 First, install the Core wallet extension [here](https://core.app).
 
-**Step 1. Add the Avalanche C-chain local network to the Core using**:
+### Step 1. add the Avalanche C-Chain local network to the Core
 
 Get the chain Id from the local DEVNET C-Chain:
 
 ```bash
-curl http://localhost:9650/ext/bc/C/rpc \
+curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
 -H "Content-Type: application/json" \
 --data '{"method":"eth_chainId","params":[],"id":1,"jsonrpc":"2.0"}'
@@ -185,26 +185,29 @@ curl http://localhost:9650/ext/bc/C/rpc \
 
 ```bash
 # to convert the hexadecimal number to decimal
+cast --to-dec 0xa868
+# 43112
+
 echo $((16#a868))
 # 43112
 ```
 
-Use this chain Id and the RPC URL `http://localhost:9650/ext/bc/C/rpc` to connect to the local Avalanche DEVNET:
+Use this chain Id and the RPC URL `${EVM_CHAIN_RPC_URL}` (e.g., `http://localhost:9650/ext/bc/C/rpc`) to connect to the local Avalanche DEVNET:
 
 ![image1](./img/core-wallet-step-1-1.png)
 ![image2](./img/core-wallet-step-2-1.png)
 
-**Step 2. Import the test `ewoq` key using its hex-encoded private key**:
+### Step 2. import the test `ewoq` key using its hex-encoded private key
 
 Use the pre-funded key `56289e99c94b6912bfc12adc093c9b51124f0dc54ac7a766b2bc5ccf558d8027`.
 
 ![image3](./img/core-wallet-step-2-2.png)
 
-**Step 3. Make sure Core shows the same balance as the following commands:**
+### Step 3. make sure Core shows the same balance
 
 ```sh
 # ewoq key address is "0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC"
-curl http://localhost:9650/ext/bc/C/rpc \
+curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
 -H "Content-Type: application/json" \
 -d '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC", "latest"],"id":0}'
@@ -225,11 +228,13 @@ curl --location --request POST 'http://localhost:9650/ext/bc/P' \
 
 ![image4](./img/core-wallet-step-3.png)
 
-**Step 4. Transfer some tokens to another test key of zero balance. We will use the second key in the above JSON:**
+### Step 4. transfer some tokens to another test key of zero balance
+
+We will use the second key in the above JSON:
 
 ```sh
 # another key address is "0x53C62F5d19f94556c4e9E9Ee97CeE274AB053399"
-curl http://localhost:9650/ext/bc/C/rpc \
+curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
 -H "Content-Type: application/json" \
 -d '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0x53C62F5d19f94556c4e9E9Ee97CeE274AB053399", "latest"],"id":0}'
@@ -239,11 +244,11 @@ curl http://localhost:9650/ext/bc/C/rpc \
 ![image6](./img/core-wallet-step-4-2.png)
 ![image7](./img/core-wallet-step-4-3.png)
 
-**Step 5. Make sure the tokens got transfered by checking the balance of two accounts:**
+### Step 5. make sure the tokens got transfered by checking the balance of two accounts
 
 ```sh
 # ewoq key address is "0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC"
-curl http://localhost:9650/ext/bc/C/rpc \
+curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
 -H "Content-Type: application/json" \
 -d '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC", "latest"],"id":0}'
@@ -255,7 +260,7 @@ cast --to-dec 0x2946bc6b88d726f8f3a400
 
 ```sh
 # another key address is "0x53C62F5d19f94556c4e9E9Ee97CeE274AB053399"
-curl http://localhost:9650/ext/bc/C/rpc \
+curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
 -H "Content-Type: application/json" \
 -d '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0x53C62F5d19f94556c4e9E9Ee97CeE274AB053399", "latest"],"id":0}'

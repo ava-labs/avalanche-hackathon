@@ -13,6 +13,17 @@ The RPC URL of the Glitch Hackathon subnet is:
 export EVM_CHAIN_RPC_URL=TODO
 ```
 
+## Install Foundry
+
+We will use [Foundry](https://github.com/foundry-rs/foundry) to deploy and interact with smart contracts.
+
+Please visit [Foundry installation](https://github.com/foundry-rs/foundry#installation) for further instructions.
+
+```sh
+forge --version
+cast --version
+```
+
 ## TODO
 
 TODO
