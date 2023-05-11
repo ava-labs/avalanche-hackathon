@@ -41,7 +41,11 @@ Ava Labs has already registered domain name and version for Glitch Hackathon.
 
 Use the following:
 
-TODO
+```bash
+# copy this for examples here
+export DOMAIN_NAME=TODO
+export DOMAIN_VERSION=TODO
+```
 
 ## Registered type name and suffix data string
 
@@ -49,7 +53,11 @@ Ava Labs has already registered type name and suffix data for Glitch Hackathon.
 
 Use the following:
 
-TODO
+```bash
+# copy this for examples here
+export TYPE_NAME=TODO
+export TYPE_SUFFIX_DATA=TODO
+```
 
 ## Simple counter contract address
 
