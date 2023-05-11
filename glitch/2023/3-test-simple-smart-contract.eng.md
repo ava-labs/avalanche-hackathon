@@ -4,7 +4,7 @@ We will use [foundry](https://github.com/foundry-rs/foundry) to test simple smar
 
 And if you are testing against other networks than the local DEVNET (e.g., Glitch Hackathon DEVNET, Fuji public testnet), *please make sure to use the correct RPC URL (e.g., `--rpc-url=http://127.0.0.1:9650/ext/bc/C/rpc` only works for the local network)*.
 
-You can get `EVM_CHAIN_RPC_URL` from [local DEVNET](./1-connect-to-local-devnet-and-fund-the-wallet.eng.md) or [Glitch Hackathon DEVNET](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md).
+You can get `EVM_CHAIN_RPC_URL` from [local DEVNET](./1-connect-to-local-devnet-and-fund-the-wallet.eng.md#rpc-url) or [Glitch Hackathon DEVNET](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md#rpc-url).
 
 ```sh
 # make sure you have access to the simple counter contract file

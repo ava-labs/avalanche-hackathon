@@ -21,7 +21,7 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export GAS_RELAYER_RPC_URLS=TODO
+export GAS_RELAYER_RPC_URL=TODO
 ```
 
 ## Trusted forwarder contract address
