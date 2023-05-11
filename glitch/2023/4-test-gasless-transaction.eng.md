@@ -61,7 +61,7 @@ export TYPE_SUFFIX_DATA="bytes8 typeSuffixDatadatadatada)"
 
 ## Simple counter contract address
 
-Ava Labs has already deployed the [simple counter contract](../../src/GaslessCounter.sol) that is compliant with [OpenGSN EIP-2771](https://github.com/opengsn/gsn/blob/master/packages/contracts/src/ERC2771Recipient.sol).
+Ava Labs has already deployed the [`GaslessCounter` contract](../../src/GaslessCounter.sol) that is compliant with [OpenGSN EIP-2771](https://github.com/opengsn/gsn/blob/master/packages/contracts/src/ERC2771Recipient.sol).
 
 Use the following as the recipient contract address:
 
