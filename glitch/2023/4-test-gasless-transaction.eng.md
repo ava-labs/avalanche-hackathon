@@ -122,7 +122,7 @@ ${TRUSTED_FORWARDER_CONTRACT_ADDRESS} \
 
 ### Step 3. create "increment" calldata
 
-We need ABI-encode the target function calldata when calling the contract. We will use the `increment` function in this example:
+We need ABI-encode the target function calldata when calling the contract. We will use the `increment` function in the [`GaslessCounter` contract](../../src/GaslessCounter.sol):
 
 ```solidity
 function increment() public {
