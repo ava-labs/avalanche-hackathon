@@ -58,7 +58,7 @@ TODO
 ### Step 3. check balance
 
 ```bash
-# ewoq key address is "0xTODO"
+# "0xTODO"
 curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
 -H "Content-Type: application/json" \

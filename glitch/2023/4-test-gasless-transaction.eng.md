@@ -10,6 +10,7 @@ You will need the following in this tutorial:
 - Rust or Javascript -- we show examples in both languages, you can choose either one
 - Avalanche EVM chain RPC URLs (to be provided below, by Ava Labs -- see [Glitch Hackathon DEVNET RPC URL](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md#rpc-url))
 - Avalanche gas relayer RPC URLs (to be provided below, by Ava Labs -- see [section below](#avalanche-gas-relayer-rpc-urls))
+- Wallet (create your own wallet using [core.app](https://core.app), see [section below](#set-up-a-wallet))
 - Trusted forwarder contract address (to be provided below, by Ava Labs -- see [section below](#trusted-forwarder-contract-address))
 - Registered domain name and verion (to be provided below, by Ava Labs -- see [section below](#registered-domain-name-and-verion))
 - Registered type name and suffix data string (to be provided below, by Ava Labs -- see [section below](#registered-type-name-and-suffix-data-string))
@@ -24,6 +25,21 @@ Use the following:
 ```bash
 # copy this for examples here
 export GAS_RELAYER_RPC_URL=TODO
+```
+
+## Set up a wallet
+
+Make sure you have access to your wallet private key and the EVM chain RPC:
+
+```bash
+export MY_WALLET_EVM_ADDRESS="0xTODO"
+```
+
+```bash
+curl ${EVM_CHAIN_RPC_URL} \
+-X POST \
+-H "Content-Type: application/json" \
+-d "{\"jsonrpc\":\"2.0\",\"method\":\"eth_getBalance\",\"params\":[\"${MY_WALLET_EVM_ADDRESS}\", \"latest\"],\"id\":0}"
 ```
 
 ## Trusted forwarder contract address
@@ -113,12 +129,11 @@ ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 ### Step 2. get the current forwarder contract nonce of your key
 
 ```bash
-# use "0xb513578fAb80487a7Af50e0b2feC381D0BD8fa9D" as an example
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
 ${TRUSTED_FORWARDER_CONTRACT_ADDRESS} \
 "getNonce(address)" \
-0xb513578fAb80487a7Af50e0b2feC381D0BD8fa9D
+${MY_WALLET_EVM_ADDRESS}
 # TODO
 ```
 
