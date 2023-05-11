@@ -17,15 +17,15 @@ You can set up a local Avalanche network to quickly test your EVM contracts. The
 - [한국어 문서](./1-connect-to-local-devnet-and-fund-the-wallet.kor.md)
 - [영어 문서](./1-connect-to-local-devnet-and-fund-the-wallet.eng.md)
 
-## (Optional) Step 2. Connect to Glitch Hackathon DEVNET and fund the wallet
+## Step 2. Connect to Glitch Hackathon DEVNET and fund the wallet
 
 아발란체는 테스트용으로 셋업한, 단기간만 쓰도록 설계된 네트워크를 데브넷이라 칭합니다.
 
 _In the world of Avalanche, we refer to short-lived, test Subnets as Devnets._ (source [HyperSDK](https://github.com/ava-labs/hypersdk/blob/0907bf7c016c3ab569952201270e37cdfb8592b1/examples/tokenvm/DEVNETS.md))
 
-아바 랩스에서는 글리치 해커톤 전용 데브넷을 준비했습니다. 모든 참가자들한테는 무한정 테스트 토큰이 지원되어, 스마트 컨트랙트 및 커스텀 가상머신 개발 및 테스트에 용이합니다. 아래 문서는 글리치 데브넷에 연결 및 지갑 연동을 어떻게 하는지를 설명합니다. 위에 설명된 로컬 데브넷 또는 퍼블릭 테스트(Fuji)/메인넷을 사용하실 경우 이 단계는 건너 뛰어 주세요. 이 단게에서는 개발용 지갑에 앱 개발 및 컨트랙 배포에 필요한 토큰을 어떻게 충전하는지도 설명합니다.
+아바 랩스에서는 글리치 해커톤 전용 데브넷을 준비했습니다. 모든 참가자들한테는 무한정 테스트 토큰이 지원되어, 스마트 컨트랙트 및 커스텀 가상머신 개발 및 테스트에 용이합니다. 아래 문서는 글리치 데브넷에 연결 및 지갑 연동을 어떻게 하는지를 설명합니다. _위에 설명된 로컬 데브넷 또는 퍼블릭 테스트(Fuji)/메인넷을 사용하실 경우 이 단계는 건너 뛰어 주세요._ 이 단게에서는 개발용 지갑에 앱 개발 및 컨트랙 배포에 필요한 토큰을 어떻게 충전하는지도 설명합니다.
 
-Ava Labs has set up a public DEVNET for Glitch Hackathon. All participants will get unlimited tokens, to easily test smart contracts and custom VM development. The links below show how to connect to the Glitch DEVNET and use a web wallet with the Glitch DEVNET. If you are using the local DEVNET above or public test(Fuji)/mainnet, you can skip this part. This step also explains how to fund your wallet that is needed for building apps and contract deployment.
+Ava Labs has set up a public DEVNET for Glitch Hackathon. All participants will get unlimited tokens, to easily test smart contracts and custom VM development. The links below show how to connect to the Glitch DEVNET and use a web wallet with the Glitch DEVNET. _If you are using the local DEVNET above or public test(Fuji)/mainnet, you can skip this part._ This step also explains how to fund your wallet that is needed for building apps and contract deployment.
 
 - [한국어 문서](./2-connect-to-glitch-devnet-and-fund-the-wallet.kor.md)
 - [영어 문서](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md)
