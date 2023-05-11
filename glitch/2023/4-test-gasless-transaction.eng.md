@@ -57,10 +57,6 @@ Ava Labs has already deployed the [simple counter contract](../../src/GaslessCou
 
 Use the following as the recipient contract address:
 
-```yaml
-TODO
-```
-
 ```bash
 export COUNTER_RECIPIENT_CONTRACT_ADDRESS=TODO
 ```
