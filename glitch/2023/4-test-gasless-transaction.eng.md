@@ -199,5 +199,15 @@ In Javacript:
 Once we send the message with signature, the counter should have incremented. To check, run the following:
 
 ```bash
-# TODO
+cast call \
+--rpc-url=${EVM_CHAIN_RPC_URL} \
+${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
+"getNumber()" | sed -r '/^\s*$/d' | tail -1
+# ???
+
+cast call \
+--rpc-url=${EVM_CHAIN_RPC_URL} \
+${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
+"getLast()"
+# ???
 ```
