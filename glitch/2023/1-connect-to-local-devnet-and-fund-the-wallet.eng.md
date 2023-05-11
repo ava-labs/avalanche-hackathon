@@ -167,13 +167,13 @@ We will use the following test keys to integrate the Avalanche local DEVNET with
 ]
 ```
 
-## Core wallet
+## Connect to chain using Core web wallet
 
-First, install the Core wallet extension [here](https://core.app).
+Install the Core wallet extension [here](https://core.app).
 
-### Step 1. add the Avalanche C-Chain local network to the Core
+### Step 1. add the Avalanche EVM network to the Core wallet
 
-Get the chain Id from the local DEVNET C-Chain:
+Get the chain Id from the [local DEVNET](#rpc-url):
 
 ```bash
 curl ${EVM_CHAIN_RPC_URL} \

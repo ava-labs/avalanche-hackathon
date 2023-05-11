@@ -24,6 +24,28 @@ forge --version
 cast --version
 ```
 
-## TODO
+## Connect to chain using Core web wallet
 
-TODO
+Install the Core wallet extension [here](https://core.app) and create/import a wallet:
+
+### Step 1. add the Avalanche EVM network to the Core wallet
+
+Get the chain Id from the [Glitch Hackathon DEVNET](#rpc-url):
+
+```bash
+curl ${EVM_CHAIN_RPC_URL} \
+-X POST \
+-H "Content-Type: application/json" \
+--data '{"method":"eth_chainId","params":[],"id":1,"jsonrpc":"2.0"}'
+# {"jsonrpc":"2.0","id":1,"result":"0xa868"}
+```
+
+```bash
+# to convert the hexadecimal number to decimal
+cast --to-dec 0xa868
+# 43112
+
+echo $((16#a868))
+# 43112
+```
+
