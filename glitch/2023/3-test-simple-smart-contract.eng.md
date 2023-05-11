@@ -18,11 +18,15 @@ forge update
 ```
 
 ```bash
+export TEST_PRIVATE_KEY="56289e99c94b6912bfc12adc093c9b51124f0dc54ac7a766b2bc5ccf558d8027"
+```
+
+```bash
 cd ./avalanche-hackathon
 forge create \
 --gas-price 700000000000 \
 --priority-gas-price 10000000000 \
---private-key=56289e99c94b6912bfc12adc093c9b51124f0dc54ac7a766b2bc5ccf558d8027 \
+--private-key=${TEST_PRIVATE_KEY} \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
 ./src/Counter.sol:Counter
 ```
@@ -34,6 +38,10 @@ Deployed to: 0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25
 Transaction hash: ...
 ```
 
+```bash
+export COUNTER_CONTRACT_ADDRESS="0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25"
+```
+
 **To increment the counter:**
 
 ```bash
@@ -41,24 +49,23 @@ Transaction hash: ...
 cast send \
 --gas-price 700000000000 \
 --priority-gas-price 10000000000 \
---private-key=56289e99c94b6912bfc12adc093c9b51124f0dc54ac7a766b2bc5ccf558d8027 \
+--private-key=${TEST_PRIVATE_KEY} \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
-0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25 \
+${COUNTER_CONTRACT_ADDRESS} \
 "increment()"
 ```
 
 ```bash
 # to see the debug events
-# use the transaction hash "0x8117b66ce18217f5b679596ebb2b01b395ae511917baa17a98dd597a2183a9a4"
 cast receipt \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
-0x8117b66ce18217f5b679596ebb2b01b395ae511917baa17a98dd597a2183a9a4
+${TRANSACTION_HASH}
 ```
 
 ```bash
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
-0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25 \
+${COUNTER_CONTRACT_ADDRESS} \
 "getNumber()" | sed -r '/^\s*$/d' | tail -1
 ```
 
@@ -71,7 +78,7 @@ cast --to-dec 0x0000000000000000000000000000000000000000000000000000000000000001
 # set to "ewoq" key address
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
-0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25 \
+${COUNTER_CONTRACT_ADDRESS} \
 "getLast()"
 # 0x0000000000000000000000008db97c7cece249c2b98bdc0226cc4c2a57bf52fc
 ```

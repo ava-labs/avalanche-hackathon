@@ -41,9 +41,9 @@ Let's deploy a simple EVM smart contract with your wallet, and see how to execut
 
 ## Step 4. Test gasless transaction
 
-(이 단계는 [글리치 해커톤 데브넷](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md)을 필요로 합니다. 가스비 없는 메타 트랙잭션을 사용하지 않는다면 이 단계를 건어 뛰어 주세요.)
+(이 단계는 [글리치 해커톤 데브넷](#step-2-connect-to-glitch-hackathon-devnet-and-fund-the-wallet)을 필요로 합니다. 가스비 없는 메타 트랙잭션을 사용하지 않는다면 이 단계를 건어 뛰어 주세요.)
 
-(This step requires [Glitch Hackathon DEVNET](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md). If you do not plan to use no-gas-fee meta transaction, please skip this step.)
+(This step requires [Glitch Hackathon DEVNET](#step-2-connect-to-glitch-hackathon-devnet-and-fund-the-wallet). If you do not plan to use no-gas-fee meta transaction, please skip this step.)
 
 아바 랩스에서 배포한 가스 릴레이 서버를 사용해서, 가스비 없이도 유저들이 거래를 할 수 있는 컨트랙을 배포합니다. EVM 체인의 네이티브 토큰이 없이도 유저들이 스마트 컨트랙을 사용할 수 있기 때문에 (예, NFT 민팅), 웹2와 같은 유저 경험을 제공합니다.
 
