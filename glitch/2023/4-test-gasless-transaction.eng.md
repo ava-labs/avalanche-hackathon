@@ -122,6 +122,82 @@ ${TRUSTED_FORWARDER_CONTRACT_ADDRESS} \
 
 ### Step 3. create "increment" calldata
 
+We need ABI-encode the target function calldata when calling the contract. We will use the `increment` function in this example:
+
+```solidity
+function increment() public {
+    number++;
+
+    last = _msgSender(); // not "msg.sender"
+}
+```
+
+To ABI-encode the "increment" function call as calldata:
+
+In Rust:
+
+```rust
+// TODO: rust
+```
+
+In Javacript:
+
+```javascript
+// TODO: javascript
+```
+
+### Step 4. create EIP-712 message
+
+Now we need construct a structed message that is compliant with OpenGSN trusted forwarder contract and Ava Labs gas relayer server (see [EIP-712](https://eips.ethereum.org/EIPS/eip-712)).
+
+In Rust:
+
+```rust
+// TODO: rust
+```
+
+In Javacript:
+
+```javascript
+// TODO: javascript
+```
+
+### Step 5. sign EIP-712 message
+
+Once we create the EIP-712 message, we need to sign the message:
+
+In Rust:
+
+```rust
+// TODO: rust
+```
+
+In Javacript:
+
+```javascript
+// TODO: javascript
+```
+
+### Step 6. send EIP-712 message and signature
+
+Once we sign the EIP-712 message, we need to send the message to the gas relayer server:
+
+In Rust:
+
+```rust
+// TODO: rust
+```
+
+In Javacript:
+
+```javascript
+// TODO: javascript
+```
+
+### Step 7. confirm "increment" result
+
+Once we send the message with signature, the counter should have incremented. To check, run the following:
+
 ```bash
 # TODO
 ```
