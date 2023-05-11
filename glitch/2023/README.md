@@ -1,8 +1,8 @@
 # Welcome to Glitch Hackathon 2023
 
-글리치 해커톤 2023 이벤트에 오신 것을 환영합니다! 이 페이지는 [아발란체 트랙 미션](https://trinity-studio.notion.site/GLITCH-KOREA-TRACK-GUIDE-1509d049e1b84ef49f737af5398541c8)에 참가하실 때 필요한 모든 자료들을 포함하고 있습니다. 해커톤 용 인프라 이용을 위해서 다음 링크들을 순서대로 참조해주세요 (예: 테스트 토큰, 지갑 연동, 체인 RPC들).
+[글리치 해커톤 2023](https://glitch-hack.com) 이벤트에 오신 것을 환영합니다! 이 페이지는 [아발란체 트랙 미션](https://trinity-studio.notion.site/GLITCH-KOREA-TRACK-GUIDE-1509d049e1b84ef49f737af5398541c8)에 참가하실 때 필요한 모든 자료들을 포함하고 있습니다. 해커톤 용 인프라 이용을 위해서 다음 링크들을 순서대로 참조해주세요 (예: 테스트 토큰, 지갑 연동, 체인 RPC들).
 
-Welcome to Glitch Hackathon 2023! This page contains all the information you need to participate in the [Avalanche track mission](https://trinity-studio.notion.site/GLITCH-KOREA-TRACK-GUIDE-1509d049e1b84ef49f737af5398541c8). Please check out the following links to get access to our Hackathon infra (e.g., test tokens, wallet integration, chain RPCs).
+Welcome to [Glitch Hackathon 2023](https://glitch-hack.com)! This page contains all the information you need to participate in the [Avalanche track mission](https://trinity-studio.notion.site/GLITCH-KOREA-TRACK-GUIDE-1509d049e1b84ef49f737af5398541c8). Please check out the following links to get access to our Hackathon infra (e.g., test tokens, wallet integration, chain RPCs).
 
 ## (Optional) Step 1. Connect to local DEVNET and fund the wallet
 
