@@ -18,6 +18,7 @@ forge update
 ```
 
 ```bash
+# use "ewoq" key
 export TEST_PRIVATE_KEY="56289e99c94b6912bfc12adc093c9b51124f0dc54ac7a766b2bc5ccf558d8027"
 ```
 
@@ -32,7 +33,7 @@ forge create \
 ```
 
 ```bash
-# Deployed address and transaction hash may differ
+# deployed address and transaction hash may differ
 Deployer: 0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC
 Deployed to: 0x17aB05351fC94a1a67Bf3f56DdbB941aE6c63E25
 Transaction hash: ...
