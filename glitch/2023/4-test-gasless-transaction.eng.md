@@ -32,7 +32,7 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export TRUSTED_FORWARDER_CONTRACT_ADDRESS=TODO
+export TRUSTED_FORWARDER_CONTRACT_ADDRESS=0x52C84043CD9c865236f11d9Fc9F56aa003c1f922
 ```
 
 ## Registered domain name and verion
@@ -43,8 +43,8 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export DOMAIN_NAME=TODO
-export DOMAIN_VERSION=TODO
+export DOMAIN_NAME="my domain name"
+export DOMAIN_VERSION="my domain version"
 ```
 
 ## Registered type name and suffix data string
@@ -55,8 +55,8 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export TYPE_NAME=TODO
-export TYPE_SUFFIX_DATA=TODO
+export TYPE_NAME="my type name"
+export TYPE_SUFFIX_DATA="bytes8 typeSuffixDatadatadatada)"
 ```
 
 ## Simple counter contract address
