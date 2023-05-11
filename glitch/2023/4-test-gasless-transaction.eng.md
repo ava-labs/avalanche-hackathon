@@ -128,7 +128,7 @@ ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 # 0x00000000000000000000000009cdb41fcec6410a00c7751257c33e9ea0d0c835
 ```
 
-### Step 2. get the current forwarder contract nonce of your key
+### Step 2. get the current forwarder contract "nonce" of your key
 
 ```bash
 cast call \
@@ -139,7 +139,7 @@ ${MY_WALLET_EVM_ADDRESS}
 # TODO
 ```
 
-### Step 3. create "increment" calldata
+### Step 3. create "increment" calldata for counter contract
 
 We need ABI-encode the target function calldata when calling the contract. We will use the `increment` function in the [`GaslessCounter` contract](../../src/GaslessCounter.sol):
 
@@ -289,7 +289,7 @@ In Javacript:
 // TODO: javascript
 ```
 
-### Step 7. confirm "increment" result
+### Step 7. confirm "increment" result from the counter contract
 
 Once we send the message with signature, the counter should have incremented. To check, run the following:
 
