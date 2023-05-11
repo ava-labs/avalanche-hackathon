@@ -53,16 +53,24 @@ echo $((16#a868))
 
 We've set up a DEVNET faucet for Glitch Hackathon. Just paste your EVM address to get the funding. This faucet has rate limits to prevent DDoS attacks. Please reach out to Ava Labs staff for funding issues:
 
-TODO
+DEVNET faucet URL: **http://127.0.0.1/TODO**
+
+Copy and paste your EVM address, and click "Request fund" button.
 
 ### Step 3. check balance
 
+You can copy and paste your EVM address, and check "Check balance".
+
+Or use the following commands:
+
 ```bash
-# "0xTODO"
+# update with your EVM address
+export MY_WALLET_EVM_ADDRESS="0x..."
+```
+
+```bash
 curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
 -H "Content-Type: application/json" \
--d '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0xTODO", "latest"],"id":0}'
+-d "{\"jsonrpc\":\"2.0\",\"method\":\"eth_getBalance\",\"params\":[\"${MY_WALLET_EVM_ADDRESS}\", \"latest\"],\"id\":0}"
 ```
-
-TODO
