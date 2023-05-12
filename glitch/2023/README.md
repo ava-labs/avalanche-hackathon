@@ -15,7 +15,7 @@ _In the world of Avalanche, we refer to short-lived, test Subnets as Devnets._ (
 You can set up a local Avalanche network to quickly test your EVM contracts. The links below show how to connect to the local DEVNET and use a web wallet with the local DEVNET. If you are using public test(Fuji)/mainnet or [Glitch Hackathon DEVNET](#step-2-connect-to-glitch-hackathon-devnet-and-fund-the-wallet), you can skip this part. This step also explains how to fund your wallet that is needed for building apps and contract deployment.
 
 - [한국어 문서](./docs/1-connect-to-local-devnet-and-fund-the-wallet.kor.md)
-- [영어 문서](./docs/1-connect-to-local-devnet-and-fund-the-wallet.eng.md)
+- [영어 문서 (English version)](./docs/1-connect-to-local-devnet-and-fund-the-wallet.eng.md)
 
 ## Step 2. Connect to Glitch Hackathon DEVNET and fund the wallet
 
@@ -28,7 +28,7 @@ _In the world of Avalanche, we refer to short-lived, test Subnets as Devnets._ (
 Ava Labs has set up a public DEVNET for Glitch Hackathon. All participants will get unlimited tokens, to easily test smart contracts and custom VM development. The links below show how to connect to the Glitch DEVNET and use a web wallet with the Glitch DEVNET. _If you are using the local DEVNET above or public test(Fuji)/mainnet, you can skip this part._ This step also explains how to fund your wallet that is needed for building apps and contract deployment.
 
 - [한국어 문서](./docs/2-connect-to-glitch-devnet-and-fund-the-wallet.kor.md)
-- [영어 문서](./docs/2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md)
+- [영어 문서 (English version)](./docs/2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md)
 
 ## Step 3. Test simple smart contract
 
@@ -37,7 +37,7 @@ Ava Labs has set up a public DEVNET for Glitch Hackathon. All participants will 
 Let's deploy a simple EVM smart contract with your wallet, and see how to execute that contract.
 
 - [한국어 문서](./docs/3-test-simple-smart-contract.kor.md)
-- [영어 문서](./docs/3-test-simple-smart-contract.eng.md)
+- [영어 문서 (English version)](./docs/3-test-simple-smart-contract.eng.md)
 
 ## Step 4. Test gasless transaction
 
@@ -50,4 +50,4 @@ Let's deploy a simple EVM smart contract with your wallet, and see how to execut
 Try the gas relay server from Ava Labs, to deploy contracts with gasless transactions. Even users with no EVM native token can interact with the smart contracts (e.g., NFT minting), which provides web2-like user experience.
 
 - [한국어 문서](./docs/4-test-gasless-transaction.kor.md)
-- [영어 문서](./docs/4-test-gasless-transaction.eng.md)
+- [영어 문서 (English version)](./docs/4-test-gasless-transaction.eng.md)
