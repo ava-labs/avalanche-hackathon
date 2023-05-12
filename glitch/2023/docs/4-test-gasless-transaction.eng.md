@@ -24,15 +24,20 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export GAS_RELAYER_RPC_URL=TODO
+export GAS_RELAYER_RPC_URL=http://gasrelay-202305-fWq13K-nlb-32d8051ce97ad01f.elb.us-west-2.amazonaws.com:9876/rpc-sync
 ```
+
+Check the following links for more info:
+
+- http://gasrelay-202305-fWq13K-nlb-32d8051ce97ad01f.elb.us-west-2.amazonaws.com:9876/info
+- http://gasrelay-202305-fWq13K-nlb-32d8051ce97ad01f.elb.us-west-2.amazonaws.com:9876/health
 
 ## Set up a wallet
 
 Make sure you have access to your wallet private key and the EVM chain RPC:
 
 ```bash
-export MY_WALLET_EVM_ADDRESS="0xTODO"
+export MY_WALLET_EVM_ADDRESS=0xTODO
 ```
 
 ```bash
@@ -40,7 +45,10 @@ curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
 -H "Content-Type: application/json" \
 -d "{\"jsonrpc\":\"2.0\",\"method\":\"eth_getBalance\",\"params\":[\"${MY_WALLET_EVM_ADDRESS}\", \"latest\"],\"id\":0}"
+# {"jsonrpc":"2.0","id":0,"result":"0x0"}
 ```
+
+It is fine to have zero balance in your wallet to interact with gasless transactions. But, if you need to deploy your own contract in DEVNET, you will need request fund from the faucet. Go [here](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md#step-2-fund-your-wallet-using-glitch-hackathon-devnet-faucet).
 
 ## Trusted forwarder contract address
 
@@ -84,7 +92,7 @@ Ava Labs has already deployed the [`GaslessCounter` contract](../../../src/Gasle
 Use the following as the recipient contract address:
 
 ```bash
-export COUNTER_RECIPIENT_CONTRACT_ADDRESS=TODO
+export GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS=0x5DB9A7629912EBF95876228C24A848de0bfB43A9
 ```
 
 ## Call the contract with zero balance
@@ -101,7 +109,7 @@ Try calling the contract with zero balance account, and expect failures like the
 cast send \
 --private-key=1af42b797a6bfbd3cf7554bed261e876db69190f5eb1b806acbd72046ee957c3 \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
-${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
+${GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "increment()"
 # (code: -32000, message: gas required exceeds allowance (0), data: None)
 ```
@@ -115,17 +123,17 @@ Now let's see how to call such contract without paying any gas using our gas rel
 ```bash
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
-${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
+${GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "getNumber()" | sed -r '/^\s*$/d' | tail -1
-# 0x0000000000000000000000000000000000000000000000000000000000000001
+# 0x0000000000000000000000000000000000000000000000000000000000000000
 ```
 
 ```bash
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
-${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
+${GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "getLast()"
-# 0x00000000000000000000000009cdb41fcec6410a00c7751257c33e9ea0d0c835
+# 0x0000000000000000000000000000000000000000000000000000000000000000
 ```
 
 ### Step 2. get the current forwarder contract "nonce" of your key
@@ -136,7 +144,7 @@ cast call \
 ${TRUSTED_FORWARDER_CONTRACT_ADDRESS} \
 "getNonce(address)" \
 ${MY_WALLET_EVM_ADDRESS}
-# TODO
+# 0x0000000000000000000000000000000000000000000000000000000000000000
 ```
 
 In Rust:
@@ -242,7 +250,7 @@ const message = {
     from: MY_WALLET_EVM_ADDRESS,
     gas: ethUtil.bnToHex(Number(estimateGas)),
     nonce: ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(MY_WALLET_EVM_ADDRESS).call())),
-    to: COUNTER_RECIPIENT_CONTRACT_ADDRESS,
+    to: GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS,
     validUntilTime: String('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'),
     value: String('0x0'),
 };
@@ -370,7 +378,7 @@ Once we send the message with signature, the counter should have incremented. To
 ```bash
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
-${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
+${GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "getNumber()" | sed -r '/^\s*$/d' | tail -1
 # ???
 ```
@@ -378,7 +386,7 @@ ${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 ```bash
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
-${COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
+${GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "getLast()"
 # ???
 ```

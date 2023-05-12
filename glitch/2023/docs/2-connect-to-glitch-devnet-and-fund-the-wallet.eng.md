@@ -10,7 +10,7 @@ The RPC URL of the Glitch Hackathon subnet is:
 
 ```bash
 # copy this for examples here
-export EVM_CHAIN_RPC_URL=TODO
+export EVM_CHAIN_RPC_URL=http://aops-custom-202305-fXPSse-nlb-c126d65745880389.elb.us-west-2.amazonaws.com:9650/ext/bc/KFXPAPGtsvmKq76GdH3Y2ghjaqjhRhTkesiNEqL6E5a4YKRhB/rpc
 ```
 
 ## Install Foundry
@@ -37,25 +37,33 @@ curl ${EVM_CHAIN_RPC_URL} \
 -X POST \
 -H "Content-Type: application/json" \
 --data '{"method":"eth_chainId","params":[],"id":1,"jsonrpc":"2.0"}'
-# {"jsonrpc":"2.0","id":1,"result":"0xa868"}
+# {"jsonrpc":"2.0","id":1,"result":"0x1e8789"}
 ```
 
 ```bash
 # to convert the hexadecimal number to decimal
-cast --to-dec 0xa868
-# 43112
+cast --to-dec 0x1e8789
+# 2000777
 
-echo $((16#a868))
-# 43112
+echo $((16#1e8789))
+# 2000777
 ```
+
+And connect to the chain as follows:
+
+![1](./img/core-glitch-hackathon-devnet-1.png)
+![2](./img/core-glitch-hackathon-devnet-2.png)
+![3](./img/core-glitch-hackathon-devnet-3.png)
 
 ### Step 2. fund your wallet using Glitch Hackathon DEVNET faucet
 
 We've set up a DEVNET faucet for Glitch Hackathon. Just paste your EVM address to get the funding. This faucet has rate limits to prevent DDoS attacks. Please reach out to Ava Labs staff for funding issues:
 
-DEVNET faucet URL: **http://127.0.0.1/TODO**
+DEVNET faucet URL: **http://52.27.115.224:3031**
 
 Copy and paste your EVM address, and click "Request fund" button.
+
+![devnet-faucet-1](./img/devnet-faucet-1.png)
 
 ### Step 3. check balance
 
