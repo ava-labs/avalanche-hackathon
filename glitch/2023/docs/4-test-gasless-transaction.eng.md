@@ -139,6 +139,30 @@ ${MY_WALLET_EVM_ADDRESS}
 # TODO
 ```
 
+In Rust:
+
+```rust
+// TODO: rust
+```
+
+In Javacript:
+
+```javascript
+import Web3 from 'web3'
+import * as ethUtil from 'ethereumjs-util'
+
+const FORWARDER_ABI = JSON.parse(
+    await readFile(
+      new URL('./Forwarder.json', import.meta.url)
+    )
+)
+
+const web3 = new Web3(new Web3.providers.HttpProvider(EVM_CHAIN_RPC_URL))
+const forwarderContract = new web3.eth.Contract(FORWARDER_ABI.abi, FORWARDER_CONTRACT_ADDRESS);
+
+ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(MY_WALLET_EVM_ADDRESS).call()))
+```
+
 ### Step 3. create "increment" calldata for counter contract
 
 We need ABI-encode the target function calldata when calling the contract. We will use the `increment` function in the [`GaslessCounter` contract](../../../src/GaslessCounter.sol):
@@ -178,7 +202,57 @@ In Rust:
 In Javacript:
 
 ```javascript
-// TODO: javascript
+import Web3 from 'web3'
+import * as ethUtil from 'ethereumjs-util'
+
+const web3 = new Web3(new Web3.providers.HttpProvider(EVM_CHAIN_RPC_URL))
+
+const domain = {
+    name: DOMAIN_NAME,
+    version: DOMAIN_VERSION,
+    chainId: ethUtil.bnToHex(await web3.eth.getChainId()),
+    verifyingContract: TRUSTED_FORWARDER_CONTRACT_ADDRESS,
+    salt:null
+};
+
+const types = {
+    EIP712Domain: [
+        {name: 'name',type: 'string',},
+        {name: 'version',type: 'string',},
+        {name: 'chainId',type: 'uint256'},
+        {name: 'verifyingContract',type: 'address',},
+    ],
+    Message: [
+        { name: 'from', type: 'address' },
+        { name: 'to', type: 'address' },
+        { name: 'value', type: 'uint256' },
+        { name: 'gas', type: 'uint256' },
+        { name: 'nonce', type: 'uint256' },
+        { name: 'data', type: 'bytes' },
+        { name: 'validUntilTime', type: 'uint256' },
+        { name: 'typeSuffixDatadatadatada', type: 'bytes32'},
+    ]
+};
+
+const estimateGas = '4000000';
+const primaryType = 'Message';
+
+const message = {
+    data: callData,
+    from: MY_WALLET_EVM_ADDRESS,
+    gas: ethUtil.bnToHex(Number(estimateGas)),
+    nonce: ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(MY_WALLET_EVM_ADDRESS).call())),
+    to: COUNTER_RECIPIENT_CONTRACT_ADDRESS,
+    validUntilTime: String('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'),
+    value: String('0x0'),
+};
+
+const data =  {
+    domain,
+    types,
+    primaryType,
+    message,
+};
 ```
 
 ### Step 5. sign EIP-712 message
