@@ -156,6 +156,7 @@ use avalanche_types::{
     key::secp256k1::private_key::Key,
     wallet::evm as wallet_evm,
 };
+use ethers::prelude::Eip1559TransactionRequest;
 use ethers_core::{
     abi::{Function, Param, ParamType, StateMutability, Token},
     types::transaction::eip2718::TypedTransaction,
