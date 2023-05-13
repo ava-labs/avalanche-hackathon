@@ -150,7 +150,33 @@ ${MY_WALLET_EVM_ADDRESS}
 In Rust:
 
 ```rust
-// TODO: rust
+use avalanche_types::{
+    evm::{abi, eip712::gsn::Tx},
+    jsonrpc::client::evm as json_client_evm,
+    key::secp256k1::private_key::Key,
+    wallet::evm as wallet_evm,
+};
+
+fn get_nonce_calldata(addr: H160) -> Vec<u8> {
+    // parsed function of "getNonce(address from)"
+    let func = Function {
+        name: "getNonce".to_string(),
+        inputs: vec![Param {
+            name: "from".to_string(),
+            kind: ParamType::Address,
+            internal_type: None,
+        }],
+        outputs: vec![Param {
+            name: "nonce".to_string(),
+            kind: ParamType::Uint(256),
+            internal_type: None,
+        }],
+        constant: None,
+        state_mutability: StateMutability::NonPayable,
+    };
+    let arg_tokens = vec![Token::Address(addr)];
+    abi::encode_calldata(func, &arg_tokens).unwrap()
+}
 ```
 
 In Javacript:
@@ -188,13 +214,54 @@ To ABI-encode the "increment" function call as calldata:
 In Rust:
 
 ```rust
-// TODO: rust
+let func = Function {
+        name: "increment".to_string(),
+        inputs: vec![],
+        outputs: Vec::new(),
+        constant: None,
+        state_mutability: StateMutability::NonPayable,
+    };
+    let arg_tokens = vec![];
+    let no_gas_recipient_contract_calldata = abi::encode_calldata(func, &arg_tokens).unwrap();
+    log::info!(
+        "no gas recipient contract calldata: 0x{}",
+        hex::encode(no_gas_recipient_contract_calldata.clone())
+    );
 ```
 
 In Javacript:
 
 ```javascript
-// TODO: javascript
+const COUNTER_ABI=[
+    "function setNumber(uint256 newNumber) public",
+    "function increment() public",
+    "function decrement() public",
+    "function getNumber() public view retruns (uint256)",
+    "function getLast() public view returns (address)"
+]
+
+const web3 = new Web3(new Web3.providers.HttpProvider(CHAIN_RPC))
+const counterContract = new web3.eth.Contract(COUNTER_ABI, COUNTER_ADDRESS)
+
+async function setNumber(newNumber) {
+    const data = counterContract.methods.increment().encodeABI();
+    await metaTransaction(COUNTER_ADDRESS, data);
+}
+
+async function increment() {
+    const data = counterContract.methods.increment().encodeABI();
+    await metaTransaction(COUNTER_ADDRESS, data);
+}
+
+async function decrement() {
+    const data = counterContract.methods.decrement().encodeABI();
+    await metaTransaction(COUNTER_ADDRESS, data);
+}
+
+async function getNumber() {
+    const result = await counterContract.methods.getNumber().call();
+    return result;
+}
 ```
 
 ### Step 4. create EIP-712 message
@@ -204,7 +271,39 @@ Now we need construct a structed message that is compliant with OpenGSN trusted 
 In Rust:
 
 ```rust
-// TODO: rust
+let mut relay_tx = Tx::new()
+        //
+        // make sure this matches with "registerDomainSeparator" call
+        .domain_name(domain_name)
+        //
+        .domain_version(domain_version)
+        //
+        // local network
+        .domain_chain_id(chain_id)
+        //
+        // trusted forwarder contract address
+        .domain_verifying_contract(trusted_forwarder_contract_address)
+        .from(no_gas_key.to_public_key().to_h160())
+        //
+        // contract address that this gasless transaction will interact with
+        .to(recipient_contract_address)
+        //
+        // just some random value, otherwise, estimate gas fails
+        .gas(U256::from(30000))
+        //
+        // contract call needs no value
+        .value(U256::zero())
+        //
+        .nonce(forwarder_nonce_no_gas_key)
+        //
+        // calldata for contract calls
+        .data(no_gas_recipient_contract_calldata)
+        //
+        .valid_until_time(U256::MAX)
+        //
+        .type_name(type_name)
+        //
+        .type_suffix_data(type_suffix_data);
 ```
 
 In Javacript:
@@ -270,13 +369,43 @@ Once we create the EIP-712 message, we need to sign the message:
 In Rust:
 
 ```rust
-// TODO: rust
+let chain_rpc_provider_arc = Arc::new(chain_rpc_provider);
+let relay_tx_request = relay_tx
+    .sign_to_request_with_estimated_gas_with_retries(
+        no_gas_key_signer,
+        Arc::clone(&chain_rpc_provider_arc),
+        Duration::from_secs(30),
+        Duration::from_millis(100),
+        U256::from(10000),
+    )
+    .await
+    .unwrap();
+log::info!("relay_tx_request: {:?}", relay_tx_request);
+
+let signed_bytes: ethers_core::types::Bytes =
+    serde_json::to_vec(&relay_tx_request).unwrap().into();
 ```
 
 In Javacript:
 
 ```javascript
-// TODO: javascript
+const dataToSign =  {
+    domain,
+    types,
+    primaryType,
+    message: {
+        ...message,
+        typeSuffixDatadatadatada : Buffer.from(RELAYER_TYPE_SUFFIX_DATA, 'utf8'),
+    },
+};
+
+const sig = ethSigUtil.signTypedData(
+    {
+        privateKey : Buffer.from(FROM_ADDRESS_PK, 'hex'),
+        data : dataToSign,
+        version : ethSigUtil.SignTypedDataVersion.V4,
+    }
+);
 ```
 
 ### Step 6. send EIP-712 message and signature
@@ -362,13 +491,39 @@ Once we sign the EIP-712 message, we need to send the message to the gas relayer
 In Rust:
 
 ```rust
-// TODO: rust
+let pending = relay_server_provider
+    .send_raw_transaction(signed_bytes)
+    .await
+    .unwrap();
+log::info!(
+    "pending tx hash {} from 0x{:x}",
+    pending.tx_hash(),
+    no_gas_key.to_public_key().to_h160()
+);
+
+Ok(())
 ```
 
 In Javacript:
 
 ```javascript
-// TODO: javascript
+const ecRecover = ethSigUtil.recoverTypedSignature(
+    {
+        data : dataToSign,
+        signature : sig,
+        version : ethSigUtil.SignTypedDataVersion.V4,
+    }
+);
+
+const tx = {
+    forwardRequest: data,
+    metadata : {
+            signature : sig.substring(2)
+    }
+};
+
+const rawTx = '0x' + Buffer.from(JSON.stringify(tx)).toString('hex');
+console.log(rawTx)
 ```
 
 ### Step 7. confirm "increment" result from the counter contract
