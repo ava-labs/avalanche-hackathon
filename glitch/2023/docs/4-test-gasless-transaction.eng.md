@@ -182,6 +182,26 @@ fn get_nonce_calldata(addr: H160) -> Vec<u8> {
     let arg_tokens = vec![Token::Address(addr)];
     abi::encode_calldata(func, &arg_tokens).unwrap()
 }
+
+let chain_rpc_provider = wallet_evm::new_provider(
+  EVM_CHAIN_RPC_URL,
+  Duration::from_secs(15),
+  Duration::from_secs(30),
+  10,
+  Duration::from_secs(3),
+)
+.unwrap();
+log::info!("created chain rpc server provider for {EVM_CHAIN_RPC_URL}");
+
+let tx = Eip1559TransactionRequest::new()
+    .chain_id(chain_id.as_u64())
+    .to(ethers::prelude::H160::from(
+        TRUSTED_FORWARDER_CONTRACT_ADDRESS.as_fixed_bytes(),
+    ))
+    .data(get_nonce_calldata(no_gas_key.to_public_key().to_h160()));
+let tx: TypedTransaction = tx.into();
+let output = chain_rpc_provider.call(&tx, None).await.unwrap();
+let forwarder_nonce_no_gas_key = U256::from_big_endian(&output);
 ```
 
 In Javacript:
