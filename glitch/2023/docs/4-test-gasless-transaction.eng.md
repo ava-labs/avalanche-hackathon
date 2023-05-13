@@ -391,6 +391,14 @@ ${GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 # ???
 ```
 
+### Step 8. try again with Rust command-line example
+
+Please check the [`gasless-counter-increment`](../gasless-counter-increment) command to automate all above and see how to call `increment` using Rust.
+
+```bash
+# TODO
+```
+
 ## What's next?
 
 Now that you tried gasless transaction with the Ava Labs gas relayer, you can try writing your own EIP-2771 compliant contract. Please check out the following links:
