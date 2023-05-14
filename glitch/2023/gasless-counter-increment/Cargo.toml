@@ -2,7 +2,23 @@
 name = "gasless-counter-increment"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.69"
+description = "Avalanche EVM gasless transaction examples"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+avalanche-types = { version = "0.0.383", features = ["jsonrpc_client", "evm", "wallet", "wallet_evm"] } # https://crates.io/crates/avalanche-types
+env_logger = "0.10.0"
+ethers = { version = "=2.0.4", features = ["eip712"] } # https://github.com/gakonst/ethers-rs/releases
+ethers-core = "=2.0.4"
+ethers-providers = { version = "=2.0.4" } # https://github.com/gakonst/ethers-rs/releases
+ethers-signers = "=2.0.4"
+hex = "0.4.3"
+log = "0.4.17"
+primitive-types = "0.12.1" # https://crates.io/crates/primitive-types
+serde_json = "1.0.96" # https://github.com/serde-rs/json/releases
+tokio = { version = "1.28.1", features = ["full"] }
+
+# https://github.com/cross-rs/cross/wiki/Recipes#openssl
+openssl = { version = "0.10", features = ["vendored"] }

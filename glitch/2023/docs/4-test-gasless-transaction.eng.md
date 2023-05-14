@@ -202,7 +202,7 @@ log::info!("created chain rpc server provider for {EVM_CHAIN_RPC_URL}");
 let tx = Eip1559TransactionRequest::new()
     .chain_id(chain_id.as_u64())
     .to(ethers::prelude::H160::from(
-        env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS").unwrap().as_fixed_bytes(),
+        env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS").unwrap()
     ))
     .data(get_nonce_calldata(no_gas_key.to_public_key().to_h160()));
 let tx: TypedTransaction = tx.into();
@@ -223,9 +223,9 @@ const FORWARDER_ABI = JSON.parse(
 )
 
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.("EVM_CHAIN_RPC_URL"))
-const forwarderContract = new web3.eth.Contract(FORWARDER_ABI.abi, FORWARDER_CONTRACT_ADDRESS);
+const forwarderContract = new web3.eth.Contract(FORWARDER_ABI.abi, process.env.TRUSTED_FORWARDER_CONTRACT_ADDRESS);
 
-ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(MY_WALLET_EVM_ADDRESS).call()))
+ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(process.env.MY_WALLET_EVM_ADDRESS).call()))
 ```
 
 ### Step 3. create "increment" calldata for counter contract
@@ -296,38 +296,37 @@ use ethers_core::{
 };
 
 let mut relay_tx = Tx::new()
-        //
-        // make sure this matches with "registerDomainSeparator" call
-        .domain_name(env::var("DOMAIN_NAME").unwrap())
-        //
-        .domain_version(env::var("DOMAIN_VERSION").unwrap())
-        //
-        // local network
-        .domain_chain_id(env::var("chain_id").unwrap())
-        //
-        // trusted forwarder contract address
-        .domain_verifying_contract(env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS").unwrap())
-        .from(no_gas_key.to_public_key().to_h160())
-        //
-        // contract address that this gasless transaction will interact with
-        .to(env::var("GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS").unwrap())
-        //
-        // just some random value, otherwise, estimate gas fails
-        .gas(U256::from(30000))
-        //
-        // contract call needs no value
-        .value(U256::zero())
-        //
-        .nonce(forwarder_nonce_no_gas_key)
-        //
-        // calldata for contract calls
-        .data(no_gas_recipient_contract_calldata)
-        //
-        .valid_until_time(U256::MAX)
-        //
-        .type_name(env::var("TYPE_NAME").unwrap())
-        //
-        .type_suffix_data(env::var("TYPE_SUFFIX_DATA").unwrap());
+    //
+    // make sure this matches with "registerDomainSeparator" call
+    .domain_name(env::var("DOMAIN_NAME").unwrap())
+    //
+    .domain_version(env::var("DOMAIN_VERSION").unwrap())
+    //
+    .domain_chain_id(chain_id)
+    //
+    // trusted forwarder contract address
+    .domain_verifying_contract(env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS").unwrap())
+    .from(no_gas_key.to_public_key().to_h160())
+    //
+    // contract address that this gasless transaction will interact with
+    .to(env::var("GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS").unwrap())
+    //
+    // just some random value, otherwise, estimate gas fails
+    .gas(U256::from(30000))
+    //
+    // contract call needs no value
+    .value(U256::zero())
+    //
+    .nonce(forwarder_nonce_no_gas_key)
+    //
+    // calldata for contract calls
+    .data(no_gas_recipient_contract_calldata)
+    //
+    .valid_until_time(U256::MAX)
+    //
+    .type_name(env::var("TYPE_NAME").unwrap())
+    //
+    .type_suffix_data(env::var("TYPE_SUFFIX_DATA").unwrap());
 ```
 
 In Javacript:
@@ -370,10 +369,10 @@ const primaryType = 'Message';
 
 const message = {
     data: callData,
-    from: MY_WALLET_EVM_ADDRESS,
+    from: process.env.MY_WALLET_EVM_ADDRESS,
     gas: ethUtil.bnToHex(Number(estimateGas)),
-    nonce: ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(MY_WALLET_EVM_ADDRESS).call())),
-    to: process.env.("GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS"),
+    nonce: ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(process.env.MY_WALLET_EVM_ADDRESS).call())),
+    to: process.env.GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS,
     validUntilTime: String('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'),
     value: String('0x0'),
 };
@@ -393,15 +392,8 @@ Once we create the EIP-712 message, we need to sign the message:
 In Rust:
 
 ```rust
-use std::{
-    io::{self, stdout},
-    sync::Arc,
-};
-use ethers_core::{
-    abi::{Function, Param, ParamType, StateMutability, Token},
-    types::transaction::eip2718::TypedTransaction,
-    types::{H160, U256},
-};
+use std::sync::Arc;
+use ethers_core::types::U256;
 use tokio::time::Duration;
 
 let chain_rpc_provider_arc = Arc::new(chain_rpc_provider);
@@ -430,7 +422,7 @@ const dataToSign =  {
     primaryType,
     message: {
         ...message,
-        typeSuffixDatadatadatada : Buffer.from(process.env.RELAYER_TYPE_SUFFIX_DATA, 'utf8'),
+        typeSuffixDatadatadatada : Buffer.from(process.env.TYPE_SUFFIX_DATA, 'utf8'),
     },
 };
 
@@ -559,6 +551,9 @@ const tx = {
 
 const rawTx = '0x' + Buffer.from(JSON.stringify(tx)).toString('hex');
 console.log(rawTx)
+
+// TODO: POST the relay server
+process.env.GAS_RELAYER_RPC_URL
 ```
 
 ### Step 7. confirm "increment" result from the counter contract
