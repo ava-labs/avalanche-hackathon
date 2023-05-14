@@ -156,7 +156,6 @@ use std::{
 };
 use avalanche_types::{
     evm::{abi, eip712::gsn::Tx},
-    jsonrpc::client::evm as json_client_evm,
     key::secp256k1::private_key::Key,
     wallet::evm as wallet_evm,
 };
@@ -275,11 +274,11 @@ const COUNTER_ABI=[
 ]
 
 const web3 = new Web3(new Web3.providers.HttpProvider(CHAIN_RPC))
-const counterContract = new web3.eth.Contract(COUNTER_ABI, COUNTER_ADDRESS)
+const counterContract = new web3.eth.Contract(process.env.COUNTER_ABI, process.env.COUNTER_ADDRESS)
 
 async function increment() {
     const data = counterContract.methods.increment().encodeABI();
-    await metaTransaction(COUNTER_ADDRESS, data);
+    await metaTransaction(process.env.COUNTER_ADDRESS, data);
 }
 ```
 
@@ -299,19 +298,19 @@ use ethers_core::{
 let mut relay_tx = Tx::new()
         //
         // make sure this matches with "registerDomainSeparator" call
-        .domain_name(env::var("domain_name"))
+        .domain_name(env::var("DOMAIN_NAME"))
         //
-        .domain_version(env::var("domain_version"))
+        .domain_version(env::var("DOMAIN_VERSION"))
         //
         // local network
         .domain_chain_id(env::var("chain_id"))
         //
         // trusted forwarder contract address
-        .domain_verifying_contract(env::var("trusted_forwarder_contract_address"))
+        .domain_verifying_contract(env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS"))
         .from(no_gas_key.to_public_key().to_h160())
         //
         // contract address that this gasless transaction will interact with
-        .to(env::var("recipient_contract_address"))
+        .to(env::var("GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS"))
         //
         // just some random value, otherwise, estimate gas fails
         .gas(U256::from(30000))
@@ -326,9 +325,9 @@ let mut relay_tx = Tx::new()
         //
         .valid_until_time(U256::MAX)
         //
-        .type_name(type_name)
+        .type_name(env::var("TYPE_NAME"))
         //
-        .type_suffix_data(type_suffix_data);
+        .type_suffix_data(env::var("TYPE_SUFFIX_DATA"));
 ```
 
 In Javacript:
