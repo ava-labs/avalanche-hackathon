@@ -150,7 +150,64 @@ ${MY_WALLET_EVM_ADDRESS}
 In Rust:
 
 ```rust
-// TODO: rust
+use std::{
+    io::{self, stdout},
+    sync::Arc,
+};
+use avalanche_types::{
+    evm::{abi, eip712::gsn::Tx},
+    key::secp256k1::private_key::Key,
+    wallet::evm as wallet_evm,
+};
+use ethers::prelude::Eip1559TransactionRequest;
+use ethers_core::{
+    abi::{Function, Param, ParamType, StateMutability, Token},
+    types::transaction::eip2718::TypedTransaction,
+    types::{H160, U256},
+};
+use ethers_providers::Middleware;
+use tokio::time::Duration;
+
+fn get_nonce_calldata(addr: H160) -> Vec<u8> {
+    // parsed function of "getNonce(address from)"
+    let func = Function {
+        name: "getNonce".to_string(),
+        inputs: vec![Param {
+            name: "from".to_string(),
+            kind: ParamType::Address,
+            internal_type: None,
+        }],
+        outputs: vec![Param {
+            name: "nonce".to_string(),
+            kind: ParamType::Uint(256),
+            internal_type: None,
+        }],
+        constant: None,
+        state_mutability: StateMutability::NonPayable,
+    };
+    let arg_tokens = vec![Token::Address(addr)];
+    abi::encode_calldata(func, &arg_tokens).unwrap()
+}
+
+let chain_rpc_provider = wallet_evm::new_provider(
+  env::var("EVM_CHAIN_RPC_URL").unwrap(),
+  Duration::from_secs(15),
+  Duration::from_secs(30),
+  10,
+  Duration::from_secs(3),
+)
+.unwrap();
+log::info!("created chain rpc server provider for {EVM_CHAIN_RPC_URL}");
+
+let tx = Eip1559TransactionRequest::new()
+    .chain_id(chain_id.as_u64())
+    .to(ethers::prelude::H160::from(
+        env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS").unwrap().as_fixed_bytes(),
+    ))
+    .data(get_nonce_calldata(no_gas_key.to_public_key().to_h160()));
+let tx: TypedTransaction = tx.into();
+let output = chain_rpc_provider.call(&tx, None).await.unwrap();
+let forwarder_nonce_no_gas_key = U256::from_big_endian(&output);
 ```
 
 In Javacript:
@@ -165,7 +222,7 @@ const FORWARDER_ABI = JSON.parse(
     )
 )
 
-const web3 = new Web3(new Web3.providers.HttpProvider(EVM_CHAIN_RPC_URL))
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.("EVM_CHAIN_RPC_URL"))
 const forwarderContract = new web3.eth.Contract(FORWARDER_ABI.abi, FORWARDER_CONTRACT_ADDRESS);
 
 ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(MY_WALLET_EVM_ADDRESS).call()))
@@ -188,13 +245,41 @@ To ABI-encode the "increment" function call as calldata:
 In Rust:
 
 ```rust
-// TODO: rust
+use ethers_core::{
+    abi::{Function, Param, ParamType, StateMutability, Token},
+    types::transaction::eip2718::TypedTransaction,
+    types::{H160, U256},
+};
+
+let func = Function {
+        name: "increment".to_string(),
+        inputs: vec![],
+        outputs: Vec::new(),
+        constant: None,
+        state_mutability: StateMutability::NonPayable,
+    };
+let arg_tokens = vec![];
+let no_gas_recipient_contract_calldata = abi::encode_calldata(func, &arg_tokens).unwrap();
+log::info!(
+    "no gas recipient contract calldata: 0x{}",
+    hex::encode(no_gas_recipient_contract_calldata.clone())
+);
 ```
 
 In Javacript:
 
 ```javascript
-// TODO: javascript
+const COUNTER_ABI=[
+    "function increment() public"
+]
+
+const web3 = new Web3(new Web3.providers.HttpProvider(CHAIN_RPC))
+const counterContract = new web3.eth.Contract(process.env.COUNTER_ABI, process.env.COUNTER_ADDRESS)
+
+async function increment() {
+    const data = counterContract.methods.increment().encodeABI();
+    await metaTransaction(process.env.COUNTER_ADDRESS, data);
+}
 ```
 
 ### Step 4. create EIP-712 message
@@ -204,7 +289,45 @@ Now we need construct a structed message that is compliant with OpenGSN trusted 
 In Rust:
 
 ```rust
-// TODO: rust
+use ethers_core::{
+    abi::{Function, Param, ParamType, StateMutability, Token},
+    types::transaction::eip2718::TypedTransaction,
+    types::{H160, U256},
+};
+
+let mut relay_tx = Tx::new()
+        //
+        // make sure this matches with "registerDomainSeparator" call
+        .domain_name(env::var("DOMAIN_NAME").unwrap())
+        //
+        .domain_version(env::var("DOMAIN_VERSION").unwrap())
+        //
+        // local network
+        .domain_chain_id(env::var("chain_id").unwrap())
+        //
+        // trusted forwarder contract address
+        .domain_verifying_contract(env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS").unwrap())
+        .from(no_gas_key.to_public_key().to_h160())
+        //
+        // contract address that this gasless transaction will interact with
+        .to(env::var("GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS").unwrap())
+        //
+        // just some random value, otherwise, estimate gas fails
+        .gas(U256::from(30000))
+        //
+        // contract call needs no value
+        .value(U256::zero())
+        //
+        .nonce(forwarder_nonce_no_gas_key)
+        //
+        // calldata for contract calls
+        .data(no_gas_recipient_contract_calldata)
+        //
+        .valid_until_time(U256::MAX)
+        //
+        .type_name(env::var("TYPE_NAME").unwrap())
+        //
+        .type_suffix_data(env::var("TYPE_SUFFIX_DATA").unwrap());
 ```
 
 In Javacript:
@@ -219,7 +342,7 @@ const domain = {
     name: DOMAIN_NAME,
     version: DOMAIN_VERSION,
     chainId: ethUtil.bnToHex(await web3.eth.getChainId()),
-    verifyingContract: TRUSTED_FORWARDER_CONTRACT_ADDRESS,
+    verifyingContract: process.env.TRUSTED_FORWARDER_CONTRACT_ADDRESS,
     salt:null
 };
 
@@ -250,7 +373,7 @@ const message = {
     from: MY_WALLET_EVM_ADDRESS,
     gas: ethUtil.bnToHex(Number(estimateGas)),
     nonce: ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(MY_WALLET_EVM_ADDRESS).call())),
-    to: GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS,
+    to: process.env.("GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS"),
     validUntilTime: String('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'),
     value: String('0x0'),
 };
@@ -270,13 +393,54 @@ Once we create the EIP-712 message, we need to sign the message:
 In Rust:
 
 ```rust
-// TODO: rust
+use std::{
+    io::{self, stdout},
+    sync::Arc,
+};
+use ethers_core::{
+    abi::{Function, Param, ParamType, StateMutability, Token},
+    types::transaction::eip2718::TypedTransaction,
+    types::{H160, U256},
+};
+use tokio::time::Duration;
+
+let chain_rpc_provider_arc = Arc::new(chain_rpc_provider);
+let relay_tx_request = relay_tx
+    .sign_to_request_with_estimated_gas_with_retries(
+        no_gas_key_signer,
+        Arc::clone(&chain_rpc_provider_arc),
+        Duration::from_secs(30),
+        Duration::from_millis(100),
+        U256::from(10000),
+    )
+    .await
+    .unwrap();
+log::info!("relay_tx_request: {:?}", relay_tx_request);
+
+let signed_bytes: ethers_core::types::Bytes =
+    serde_json::to_vec(&relay_tx_request).unwrap().into();
 ```
 
 In Javacript:
 
 ```javascript
-// TODO: javascript
+const dataToSign =  {
+    domain,
+    types,
+    primaryType,
+    message: {
+        ...message,
+        typeSuffixDatadatadatada : Buffer.from(process.env.RELAYER_TYPE_SUFFIX_DATA, 'utf8'),
+    },
+};
+
+const sig = ethSigUtil.signTypedData(
+    {
+        privateKey : Buffer.from(FROM_ADDRESS_PK, 'hex'),
+        data : dataToSign,
+        version : ethSigUtil.SignTypedDataVersion.V4,
+    }
+);
 ```
 
 ### Step 6. send EIP-712 message and signature
@@ -362,13 +526,39 @@ Once we sign the EIP-712 message, we need to send the message to the gas relayer
 In Rust:
 
 ```rust
-// TODO: rust
+let pending = relay_server_provider
+    .send_raw_transaction(signed_bytes)
+    .await
+    .unwrap();
+log::info!(
+    "pending tx hash {} from 0x{:x}",
+    pending.tx_hash(),
+    no_gas_key.to_public_key().to_h160()
+);
+
+Ok(())
 ```
 
 In Javacript:
 
 ```javascript
-// TODO: javascript
+const ecRecover = ethSigUtil.recoverTypedSignature(
+    {
+        data : dataToSign,
+        signature : sig,
+        version : ethSigUtil.SignTypedDataVersion.V4,
+    }
+);
+
+const tx = {
+    forwardRequest: data,
+    metadata : {
+            signature : sig.substring(2)
+    }
+};
+
+const rawTx = '0x' + Buffer.from(JSON.stringify(tx)).toString('hex');
+console.log(rawTx)
 ```
 
 ### Step 7. confirm "increment" result from the counter contract
