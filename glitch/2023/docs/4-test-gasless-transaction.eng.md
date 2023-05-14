@@ -190,11 +190,11 @@ fn get_nonce_calldata(addr: H160) -> Vec<u8> {
 }
 
 let chain_rpc_provider = wallet_evm::new_provider(
-  env::var("EVM_CHAIN_RPC_URL"),
-  Duration::from_secs(15),
-  Duration::from_secs(30),
-  10,
-  Duration::from_secs(3),
+    env::var("EVM_CHAIN_RPC_URL").unwrap(),
+    Duration::from_secs(15),
+    Duration::from_secs(30),
+    10,
+    Duration::from_secs(3),
 )
 .unwrap();
 log::info!("created chain rpc server provider for {EVM_CHAIN_RPC_URL}");
