@@ -303,7 +303,7 @@ let mut relay_tx = Tx::new()
         .domain_version(env::var("DOMAIN_VERSION"))
         //
         // local network
-        .domain_chain_id(env::var("chain_id"))
+        .domain_chain_id(chain_id)
         //
         // trusted forwarder contract address
         .domain_verifying_contract(env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS"))
