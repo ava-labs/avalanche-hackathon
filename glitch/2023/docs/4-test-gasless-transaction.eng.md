@@ -299,15 +299,15 @@ use ethers_core::{
 let mut relay_tx = Tx::new()
         //
         // make sure this matches with "registerDomainSeparator" call
-        .domain_name(domain_name)
+        .domain_name(env::var("domain_name"))
         //
-        .domain_version(domain_version)
+        .domain_version(env::var("domain_version"))
         //
         // local network
-        .domain_chain_id(chain_id)
+        .domain_chain_id(env::var("chain_id"))
         //
         // trusted forwarder contract address
-        .domain_verifying_contract(evn::var("trusted_forwarder_contract_address"))
+        .domain_verifying_contract(env::var("trusted_forwarder_contract_address"))
         .from(no_gas_key.to_public_key().to_h160())
         //
         // contract address that this gasless transaction will interact with
@@ -343,7 +343,7 @@ const domain = {
     name: DOMAIN_NAME,
     version: DOMAIN_VERSION,
     chainId: ethUtil.bnToHex(await web3.eth.getChainId()),
-    verifyingContract: env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS"),
+    verifyingContract: process.env.TRUSTED_FORWARDER_CONTRACT_ADDRESS,
     salt:null
 };
 
@@ -431,7 +431,7 @@ const dataToSign =  {
     primaryType,
     message: {
         ...message,
-        typeSuffixDatadatadatada : Buffer.from(RELAYER_TYPE_SUFFIX_DATA, 'utf8'),
+        typeSuffixDatadatadatada : Buffer.from(process.env.RELAYER_TYPE_SUFFIX_DATA, 'utf8'),
     },
 };
 
