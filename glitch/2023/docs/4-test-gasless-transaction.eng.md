@@ -190,11 +190,11 @@ fn get_nonce_calldata(addr: H160) -> Vec<u8> {
 }
 
 let chain_rpc_provider = wallet_evm::new_provider(
-    env::var("EVM_CHAIN_RPC_URL").unwrap(),
-    Duration::from_secs(15),
-    Duration::from_secs(30),
-    10,
-    Duration::from_secs(3),
+  env::var("EVM_CHAIN_RPC_URL").unwrap(),
+  Duration::from_secs(15),
+  Duration::from_secs(30),
+  10,
+  Duration::from_secs(3),
 )
 .unwrap();
 log::info!("created chain rpc server provider for {EVM_CHAIN_RPC_URL}");
@@ -202,8 +202,8 @@ log::info!("created chain rpc server provider for {EVM_CHAIN_RPC_URL}");
 let tx = Eip1559TransactionRequest::new()
     .chain_id(chain_id.as_u64())
     .to(ethers::prelude::H160::from(
-        env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS").unwrap(),
-    )))
+        env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS").unwrap().as_fixed_bytes(),
+    ))
     .data(get_nonce_calldata(no_gas_key.to_public_key().to_h160()));
 let tx: TypedTransaction = tx.into();
 let output = chain_rpc_provider.call(&tx, None).await.unwrap();
@@ -222,7 +222,7 @@ const FORWARDER_ABI = JSON.parse(
     )
 )
 
-const web3 = new Web3(new Web3.providers.HttpProvider(env::var("EVM_CHAIN_RPC_URL"))
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.("EVM_CHAIN_RPC_URL"))
 const forwarderContract = new web3.eth.Contract(FORWARDER_ABI.abi, FORWARDER_CONTRACT_ADDRESS);
 
 ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(MY_WALLET_EVM_ADDRESS).call()))
@@ -298,19 +298,19 @@ use ethers_core::{
 let mut relay_tx = Tx::new()
         //
         // make sure this matches with "registerDomainSeparator" call
-        .domain_name(env::var("DOMAIN_NAME"))
+        .domain_name(env::var("DOMAIN_NAME").unwrap())
         //
-        .domain_version(env::var("DOMAIN_VERSION"))
+        .domain_version(env::var("DOMAIN_VERSION").unwrap())
         //
         // local network
-        .domain_chain_id(chain_id)
+        .domain_chain_id(env::var("chain_id").unwrap())
         //
         // trusted forwarder contract address
-        .domain_verifying_contract(env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS"))
+        .domain_verifying_contract(env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS").unwrap())
         .from(no_gas_key.to_public_key().to_h160())
         //
         // contract address that this gasless transaction will interact with
-        .to(env::var("GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS"))
+        .to(env::var("GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS").unwrap())
         //
         // just some random value, otherwise, estimate gas fails
         .gas(U256::from(30000))
@@ -325,9 +325,9 @@ let mut relay_tx = Tx::new()
         //
         .valid_until_time(U256::MAX)
         //
-        .type_name(env::var("TYPE_NAME"))
+        .type_name(env::var("TYPE_NAME").unwrap())
         //
-        .type_suffix_data(env::var("TYPE_SUFFIX_DATA"));
+        .type_suffix_data(env::var("TYPE_SUFFIX_DATA").unwrap());
 ```
 
 In Javacript:
@@ -373,7 +373,7 @@ const message = {
     from: MY_WALLET_EVM_ADDRESS,
     gas: ethUtil.bnToHex(Number(estimateGas)),
     nonce: ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(MY_WALLET_EVM_ADDRESS).call())),
-    to: env::var("GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS"),
+    to: process.env.("GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS"),
     validUntilTime: String('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'),
     value: String('0x0'),
 };
