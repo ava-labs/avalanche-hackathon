@@ -222,7 +222,7 @@ const FORWARDER_ABI = JSON.parse(
     )
 )
 
-const web3 = new Web3(new Web3.providers.HttpProvider(process.env.("EVM_CHAIN_RPC_URL"))
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.EVM_CHAIN_RPC_URL)
 const forwarderContract = new web3.eth.Contract(FORWARDER_ABI.abi, process.env.TRUSTED_FORWARDER_CONTRACT_ADDRESS);
 
 ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(process.env.MY_WALLET_EVM_ADDRESS).call()))
@@ -245,11 +245,7 @@ To ABI-encode the "increment" function call as calldata:
 In Rust:
 
 ```rust
-use ethers_core::{
-    abi::{Function, Param, ParamType, StateMutability, Token},
-    types::transaction::eip2718::TypedTransaction,
-    types::{H160, U256},
-};
+use ethers_core::abi::{Function, StateMutability};
 
 let func = Function {
         name: "increment".to_string(),
@@ -273,13 +269,9 @@ const COUNTER_ABI=[
     "function increment() public"
 ]
 
-const web3 = new Web3(new Web3.providers.HttpProvider(CHAIN_RPC))
-const counterContract = new web3.eth.Contract(process.env.COUNTER_ABI, process.env.COUNTER_ADDRESS)
-
-async function increment() {
-    const data = counterContract.methods.increment().encodeABI();
-    await metaTransaction(process.env.COUNTER_ADDRESS, data);
-}
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.EVM_CHAIN_RPC_URL))
+const counterContract = new web3.eth.Contract(COUNTER_ABI, process.env.GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS)
+const callData = counterContract.methods.increment().encodeABI()
 ```
 
 ### Step 4. create EIP-712 message
@@ -289,11 +281,7 @@ Now we need construct a structed message that is compliant with OpenGSN trusted 
 In Rust:
 
 ```rust
-use ethers_core::{
-    abi::{Function, Param, ParamType, StateMutability, Token},
-    types::transaction::eip2718::TypedTransaction,
-    types::{H160, U256},
-};
+use ethers_core::types::U256;
 
 let mut relay_tx = Tx::new()
     //
@@ -335,7 +323,7 @@ In Javacript:
 import Web3 from 'web3'
 import * as ethUtil from 'ethereumjs-util'
 
-const web3 = new Web3(new Web3.providers.HttpProvider(EVM_CHAIN_RPC_URL))
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.EVM_CHAIN_RPC_URL))
 
 const domain = {
     name: DOMAIN_NAME,
@@ -422,15 +410,15 @@ const dataToSign =  {
     primaryType,
     message: {
         ...message,
-        typeSuffixDatadatadatada : Buffer.from(process.env.TYPE_SUFFIX_DATA, 'utf8'),
+        typeSuffixDatadatadatada: Buffer.from(process.env.TYPE_SUFFIX_DATA, 'utf8'),
     },
 };
 
 const sig = ethSigUtil.signTypedData(
     {
-        privateKey : Buffer.from(FROM_ADDRESS_PK, 'hex'),
-        data : dataToSign,
-        version : ethSigUtil.SignTypedDataVersion.V4,
+        privateKey: Buffer.from(FROM_ADDRESS_PK, 'hex'),
+        data: dataToSign,
+        version: ethSigUtil.SignTypedDataVersion.V4,
     }
 );
 ```
@@ -536,16 +524,16 @@ In Javacript:
 ```javascript
 const ecRecover = ethSigUtil.recoverTypedSignature(
     {
-        data : dataToSign,
-        signature : sig,
-        version : ethSigUtil.SignTypedDataVersion.V4,
+        data: dataToSign,
+        signature: sig,
+        version: ethSigUtil.SignTypedDataVersion.V4,
     }
 );
 
 const tx = {
     forwardRequest: data,
-    metadata : {
-            signature : sig.substring(2)
+    metadata: {
+        signature : sig.substring(2)
     }
 };
 
@@ -553,7 +541,7 @@ const rawTx = '0x' + Buffer.from(JSON.stringify(tx)).toString('hex');
 console.log(rawTx)
 
 // TODO: POST the relay server
-process.env.GAS_RELAYER_RPC_URL
+// process.env.GAS_RELAYER_RPC_URL
 ```
 
 ### Step 7. confirm "increment" result from the counter contract
