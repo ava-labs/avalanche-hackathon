@@ -154,19 +154,12 @@ use std::{
     io::{self, stdout},
     sync::Arc,
 };
-
 use avalanche_types::{
     evm::{abi, eip712::gsn::Tx},
     jsonrpc::client::evm as json_client_evm,
     key::secp256k1::private_key::Key,
     wallet::evm as wallet_evm,
 };
-use clap::{Arg, Command};
-use crossterm::{
-    execute,
-    style::{Color, Print, ResetColor, SetForegroundColor},
-};
-use dialoguer::{theme::ColorfulTheme, Select};
 use ethers::prelude::Eip1559TransactionRequest;
 use ethers_core::{
     abi::{Function, Param, ParamType, StateMutability, Token},
@@ -211,7 +204,7 @@ let tx = Eip1559TransactionRequest::new()
     .chain_id(chain_id.as_u64())
     .to(ethers::prelude::H160::from(
         env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS".as_fixed_bytes(),
-    ))
+    )))
     .data(get_nonce_calldata(no_gas_key.to_public_key().to_h160()));
 let tx: TypedTransaction = tx.into();
 let output = chain_rpc_provider.call(&tx, None).await.unwrap();
@@ -253,6 +246,12 @@ To ABI-encode the "increment" function call as calldata:
 In Rust:
 
 ```rust
+use ethers_core::{
+    abi::{Function, Param, ParamType, StateMutability, Token},
+    types::transaction::eip2718::TypedTransaction,
+    types::{H160, U256},
+};
+
 let func = Function {
         name: "increment".to_string(),
         inputs: vec![],
@@ -260,12 +259,12 @@ let func = Function {
         constant: None,
         state_mutability: StateMutability::NonPayable,
     };
-    let arg_tokens = vec![];
-    let no_gas_recipient_contract_calldata = abi::encode_calldata(func, &arg_tokens).unwrap();
-    log::info!(
-        "no gas recipient contract calldata: 0x{}",
-        hex::encode(no_gas_recipient_contract_calldata.clone())
-    );
+let arg_tokens = vec![];
+let no_gas_recipient_contract_calldata = abi::encode_calldata(func, &arg_tokens).unwrap();
+log::info!(
+    "no gas recipient contract calldata: 0x{}",
+    hex::encode(no_gas_recipient_contract_calldata.clone())
+);
 ```
 
 In Javacript:
@@ -278,24 +277,9 @@ const COUNTER_ABI=[
 const web3 = new Web3(new Web3.providers.HttpProvider(CHAIN_RPC))
 const counterContract = new web3.eth.Contract(COUNTER_ABI, COUNTER_ADDRESS)
 
-async function setNumber(newNumber) {
-    const data = counterContract.methods.increment().encodeABI();
-    await metaTransaction(COUNTER_ADDRESS, data);
-}
-
 async function increment() {
     const data = counterContract.methods.increment().encodeABI();
     await metaTransaction(COUNTER_ADDRESS, data);
-}
-
-async function decrement() {
-    const data = counterContract.methods.decrement().encodeABI();
-    await metaTransaction(COUNTER_ADDRESS, data);
-}
-
-async function getNumber() {
-    const result = await counterContract.methods.getNumber().call();
-    return result;
 }
 ```
 
@@ -306,31 +290,11 @@ Now we need construct a structed message that is compliant with OpenGSN trusted 
 In Rust:
 
 ```rust
-use std::{
-    io::{self, stdout},
-    sync::Arc,
-};
-
-use avalanche_types::{
-    evm::{abi, eip712::gsn::Tx},
-    jsonrpc::client::evm as json_client_evm,
-    key::secp256k1::private_key::Key,
-    wallet::evm as wallet_evm,
-};
-use clap::{Arg, Command};
-use crossterm::{
-    execute,
-    style::{Color, Print, ResetColor, SetForegroundColor},
-};
-use dialoguer::{theme::ColorfulTheme, Select};
-use ethers::prelude::Eip1559TransactionRequest;
 use ethers_core::{
     abi::{Function, Param, ParamType, StateMutability, Token},
     types::transaction::eip2718::TypedTransaction,
     types::{H160, U256},
 };
-use ethers_providers::Middleware;
-use tokio::time::Duration;
 
 let mut relay_tx = Tx::new()
         //
@@ -434,26 +398,11 @@ use std::{
     io::{self, stdout},
     sync::Arc,
 };
-
-use avalanche_types::{
-    evm::{abi, eip712::gsn::Tx},
-    jsonrpc::client::evm as json_client_evm,
-    key::secp256k1::private_key::Key,
-    wallet::evm as wallet_evm,
-};
-use clap::{Arg, Command};
-use crossterm::{
-    execute,
-    style::{Color, Print, ResetColor, SetForegroundColor},
-};
-use dialoguer::{theme::ColorfulTheme, Select};
-use ethers::prelude::Eip1559TransactionRequest;
 use ethers_core::{
     abi::{Function, Param, ParamType, StateMutability, Token},
     types::transaction::eip2718::TypedTransaction,
     types::{H160, U256},
 };
-use ethers_providers::Middleware;
 use tokio::time::Duration;
 
 let chain_rpc_provider_arc = Arc::new(chain_rpc_provider);
@@ -578,32 +527,6 @@ Once we sign the EIP-712 message, we need to send the message to the gas relayer
 In Rust:
 
 ```rust
-use std::{
-    io::{self, stdout},
-    sync::Arc,
-};
-
-use avalanche_types::{
-    evm::{abi, eip712::gsn::Tx},
-    jsonrpc::client::evm as json_client_evm,
-    key::secp256k1::private_key::Key,
-    wallet::evm as wallet_evm,
-};
-use clap::{Arg, Command};
-use crossterm::{
-    execute,
-    style::{Color, Print, ResetColor, SetForegroundColor},
-};
-use dialoguer::{theme::ColorfulTheme, Select};
-use ethers::prelude::Eip1559TransactionRequest;
-use ethers_core::{
-    abi::{Function, Param, ParamType, StateMutability, Token},
-    types::transaction::eip2718::TypedTransaction,
-    types::{H160, U256},
-};
-use ethers_providers::Middleware;
-use tokio::time::Duration;
-
 let pending = relay_server_provider
     .send_raw_transaction(signed_bytes)
     .await
