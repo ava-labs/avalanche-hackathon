@@ -202,7 +202,7 @@ log::info!("created chain rpc server provider for {EVM_CHAIN_RPC_URL}");
 let tx = Eip1559TransactionRequest::new()
     .chain_id(chain_id.as_u64())
     .to(ethers::prelude::H160::from(
-        env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS".as_fixed_bytes(),
+        env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS").unwrap(),
     )))
     .data(get_nonce_calldata(no_gas_key.to_public_key().to_h160()));
 let tx: TypedTransaction = tx.into();
