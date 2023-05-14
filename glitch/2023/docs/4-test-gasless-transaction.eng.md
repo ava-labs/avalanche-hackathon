@@ -150,18 +150,31 @@ ${MY_WALLET_EVM_ADDRESS}
 In Rust:
 
 ```rust
+use std::{
+    io::{self, stdout},
+    sync::Arc,
+};
+
 use avalanche_types::{
     evm::{abi, eip712::gsn::Tx},
     jsonrpc::client::evm as json_client_evm,
     key::secp256k1::private_key::Key,
     wallet::evm as wallet_evm,
 };
+use clap::{Arg, Command};
+use crossterm::{
+    execute,
+    style::{Color, Print, ResetColor, SetForegroundColor},
+};
+use dialoguer::{theme::ColorfulTheme, Select};
 use ethers::prelude::Eip1559TransactionRequest;
 use ethers_core::{
     abi::{Function, Param, ParamType, StateMutability, Token},
     types::transaction::eip2718::TypedTransaction,
     types::{H160, U256},
 };
+use ethers_providers::Middleware;
+use tokio::time::Duration;
 
 fn get_nonce_calldata(addr: H160) -> Vec<u8> {
     // parsed function of "getNonce(address from)"
@@ -185,7 +198,7 @@ fn get_nonce_calldata(addr: H160) -> Vec<u8> {
 }
 
 let chain_rpc_provider = wallet_evm::new_provider(
-  EVM_CHAIN_RPC_URL,
+  env::var("EVM_CHAIN_RPC_URL"),
   Duration::from_secs(15),
   Duration::from_secs(30),
   10,
@@ -197,7 +210,7 @@ log::info!("created chain rpc server provider for {EVM_CHAIN_RPC_URL}");
 let tx = Eip1559TransactionRequest::new()
     .chain_id(chain_id.as_u64())
     .to(ethers::prelude::H160::from(
-        TRUSTED_FORWARDER_CONTRACT_ADDRESS.as_fixed_bytes(),
+        env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS".as_fixed_bytes(),
     ))
     .data(get_nonce_calldata(no_gas_key.to_public_key().to_h160()));
 let tx: TypedTransaction = tx.into();
@@ -217,7 +230,7 @@ const FORWARDER_ABI = JSON.parse(
     )
 )
 
-const web3 = new Web3(new Web3.providers.HttpProvider(EVM_CHAIN_RPC_URL))
+const web3 = new Web3(new Web3.providers.HttpProvider(env::var("EVM_CHAIN_RPC_URL"))
 const forwarderContract = new web3.eth.Contract(FORWARDER_ABI.abi, FORWARDER_CONTRACT_ADDRESS);
 
 ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(MY_WALLET_EVM_ADDRESS).call()))
@@ -259,11 +272,7 @@ In Javacript:
 
 ```javascript
 const COUNTER_ABI=[
-    "function setNumber(uint256 newNumber) public",
-    "function increment() public",
-    "function decrement() public",
-    "function getNumber() public view retruns (uint256)",
-    "function getLast() public view returns (address)"
+    "function increment() public"
 ]
 
 const web3 = new Web3(new Web3.providers.HttpProvider(CHAIN_RPC))
@@ -297,6 +306,32 @@ Now we need construct a structed message that is compliant with OpenGSN trusted 
 In Rust:
 
 ```rust
+use std::{
+    io::{self, stdout},
+    sync::Arc,
+};
+
+use avalanche_types::{
+    evm::{abi, eip712::gsn::Tx},
+    jsonrpc::client::evm as json_client_evm,
+    key::secp256k1::private_key::Key,
+    wallet::evm as wallet_evm,
+};
+use clap::{Arg, Command};
+use crossterm::{
+    execute,
+    style::{Color, Print, ResetColor, SetForegroundColor},
+};
+use dialoguer::{theme::ColorfulTheme, Select};
+use ethers::prelude::Eip1559TransactionRequest;
+use ethers_core::{
+    abi::{Function, Param, ParamType, StateMutability, Token},
+    types::transaction::eip2718::TypedTransaction,
+    types::{H160, U256},
+};
+use ethers_providers::Middleware;
+use tokio::time::Duration;
+
 let mut relay_tx = Tx::new()
         //
         // make sure this matches with "registerDomainSeparator" call
@@ -308,11 +343,11 @@ let mut relay_tx = Tx::new()
         .domain_chain_id(chain_id)
         //
         // trusted forwarder contract address
-        .domain_verifying_contract(trusted_forwarder_contract_address)
+        .domain_verifying_contract(evn::var("trusted_forwarder_contract_address"))
         .from(no_gas_key.to_public_key().to_h160())
         //
         // contract address that this gasless transaction will interact with
-        .to(recipient_contract_address)
+        .to(env::var("recipient_contract_address"))
         //
         // just some random value, otherwise, estimate gas fails
         .gas(U256::from(30000))
@@ -344,7 +379,7 @@ const domain = {
     name: DOMAIN_NAME,
     version: DOMAIN_VERSION,
     chainId: ethUtil.bnToHex(await web3.eth.getChainId()),
-    verifyingContract: TRUSTED_FORWARDER_CONTRACT_ADDRESS,
+    verifyingContract: env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS"),
     salt:null
 };
 
@@ -375,7 +410,7 @@ const message = {
     from: MY_WALLET_EVM_ADDRESS,
     gas: ethUtil.bnToHex(Number(estimateGas)),
     nonce: ethUtil.bnToHex(Number(await forwarderContract.methods.getNonce(MY_WALLET_EVM_ADDRESS).call())),
-    to: GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS,
+    to: env::var("GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS"),
     validUntilTime: String('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'),
     value: String('0x0'),
 };
@@ -395,6 +430,32 @@ Once we create the EIP-712 message, we need to sign the message:
 In Rust:
 
 ```rust
+use std::{
+    io::{self, stdout},
+    sync::Arc,
+};
+
+use avalanche_types::{
+    evm::{abi, eip712::gsn::Tx},
+    jsonrpc::client::evm as json_client_evm,
+    key::secp256k1::private_key::Key,
+    wallet::evm as wallet_evm,
+};
+use clap::{Arg, Command};
+use crossterm::{
+    execute,
+    style::{Color, Print, ResetColor, SetForegroundColor},
+};
+use dialoguer::{theme::ColorfulTheme, Select};
+use ethers::prelude::Eip1559TransactionRequest;
+use ethers_core::{
+    abi::{Function, Param, ParamType, StateMutability, Token},
+    types::transaction::eip2718::TypedTransaction,
+    types::{H160, U256},
+};
+use ethers_providers::Middleware;
+use tokio::time::Duration;
+
 let chain_rpc_provider_arc = Arc::new(chain_rpc_provider);
 let relay_tx_request = relay_tx
     .sign_to_request_with_estimated_gas_with_retries(
@@ -517,6 +578,32 @@ Once we sign the EIP-712 message, we need to send the message to the gas relayer
 In Rust:
 
 ```rust
+use std::{
+    io::{self, stdout},
+    sync::Arc,
+};
+
+use avalanche_types::{
+    evm::{abi, eip712::gsn::Tx},
+    jsonrpc::client::evm as json_client_evm,
+    key::secp256k1::private_key::Key,
+    wallet::evm as wallet_evm,
+};
+use clap::{Arg, Command};
+use crossterm::{
+    execute,
+    style::{Color, Print, ResetColor, SetForegroundColor},
+};
+use dialoguer::{theme::ColorfulTheme, Select};
+use ethers::prelude::Eip1559TransactionRequest;
+use ethers_core::{
+    abi::{Function, Param, ParamType, StateMutability, Token},
+    types::transaction::eip2718::TypedTransaction,
+    types::{H160, U256},
+};
+use ethers_providers::Middleware;
+use tokio::time::Duration;
+
 let pending = relay_server_provider
     .send_raw_transaction(signed_bytes)
     .await
