@@ -540,6 +540,11 @@ const tx = {
 const rawTx = '0x' + Buffer.from(JSON.stringify(tx)).toString('hex');
 console.log(rawTx)
 
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.open("POST", process.env.GAS_RELAYER_RPC_URL);
+xmlhttp.send(JSON.stringify({"jsonrpc": "2.0", "method": "eth_sendRawTransaction", "params": [tx], "id": 1}));
+
+
 // TODO: POST the relay server
 // process.env.GAS_RELAYER_RPC_URL
 ```
