@@ -248,12 +248,12 @@ In Rust:
 use ethers_core::abi::{Function, StateMutability};
 
 let func = Function {
-        name: "increment".to_string(),
-        inputs: vec![],
-        outputs: Vec::new(),
-        constant: None,
-        state_mutability: StateMutability::NonPayable,
-    };
+    name: "increment".to_string(),
+    inputs: vec![],
+    outputs: Vec::new(),
+    constant: None,
+    state_mutability: StateMutability::NonPayable,
+};
 let arg_tokens = vec![];
 let no_gas_recipient_contract_calldata = abi::encode_calldata(func, &arg_tokens).unwrap();
 log::info!(
@@ -274,14 +274,16 @@ const counterContract = new web3.eth.Contract(COUNTER_ABI, process.env.GASLESS_C
 const callData = counterContract.methods.increment().encodeABI()
 ```
 
-### Step 4. create EIP-712 message
+### Step 4. create and sign EIP-712 message
 
-Now we need construct a structed message that is compliant with OpenGSN trusted forwarder contract and Ava Labs gas relayer server (see [EIP-712](https://eips.ethereum.org/EIPS/eip-712)).
+Now we need construct a structed message in [EIP-712](https://eips.ethereum.org/EIPS/eip-712) format that is compliant with OpenGSN trusted forwarder contract and Ava Labs gas relayer server. Once we create the EIP-712 message, we need to sign the message:
 
 In Rust:
 
 ```rust
+use std::sync::Arc;
 use ethers_core::types::U256;
+use tokio::time::Duration;
 
 let mut relay_tx = Tx::new()
     //
@@ -294,6 +296,7 @@ let mut relay_tx = Tx::new()
     //
     // trusted forwarder contract address
     .domain_verifying_contract(env::var("TRUSTED_FORWARDER_CONTRACT_ADDRESS").unwrap())
+    //
     .from(no_gas_key.to_public_key().to_h160())
     //
     // contract address that this gasless transaction will interact with
@@ -315,6 +318,19 @@ let mut relay_tx = Tx::new()
     .type_name(env::var("TYPE_NAME").unwrap())
     //
     .type_suffix_data(env::var("TYPE_SUFFIX_DATA").unwrap());
+
+let chain_rpc_provider_arc = Arc::new(chain_rpc_provider);
+let relay_tx_request = relay_tx
+    .sign_to_request_with_estimated_gas_with_retries(
+        no_gas_key_signer,
+        Arc::clone(&chain_rpc_provider_arc),
+        Duration::from_secs(30),
+        Duration::from_millis(100),
+        U256::from(10000),
+    )
+    .await
+    .unwrap();
+log::info!("relay_tx_request: {:?}", relay_tx_request);
 ```
 
 In Javacript:
@@ -365,45 +381,6 @@ const message = {
     value: String('0x0'),
 };
 
-const data =  {
-    domain,
-    types,
-    primaryType,
-    message,
-};
-```
-
-### Step 5. sign EIP-712 message
-
-Once we create the EIP-712 message, we need to sign the message:
-
-In Rust:
-
-```rust
-use std::sync::Arc;
-use ethers_core::types::U256;
-use tokio::time::Duration;
-
-let chain_rpc_provider_arc = Arc::new(chain_rpc_provider);
-let relay_tx_request = relay_tx
-    .sign_to_request_with_estimated_gas_with_retries(
-        no_gas_key_signer,
-        Arc::clone(&chain_rpc_provider_arc),
-        Duration::from_secs(30),
-        Duration::from_millis(100),
-        U256::from(10000),
-    )
-    .await
-    .unwrap();
-log::info!("relay_tx_request: {:?}", relay_tx_request);
-
-let signed_bytes: ethers_core::types::Bytes =
-    serde_json::to_vec(&relay_tx_request).unwrap().into();
-```
-
-In Javacript:
-
-```javascript
 const dataToSign =  {
     domain,
     types,
@@ -421,9 +398,18 @@ const sig = ethSigUtil.signTypedData(
         version: ethSigUtil.SignTypedDataVersion.V4,
     }
 );
+
+// optional, to double check the signature
+const ecRecover = ethSigUtil.recoverTypedSignature(
+    {
+        data: dataToSign,
+        signature: sig,
+        version: ethSigUtil.SignTypedDataVersion.V4,
+    }
+);
 ```
 
-### Step 6. send EIP-712 message and signature
+### Step 5. send EIP-712 message and signature
 
 Once we sign the EIP-712 message, we need to send the message to the gas relayer server. The example request format is as follows:
 
@@ -506,6 +492,9 @@ Once we sign the EIP-712 message, we need to send the message to the gas relayer
 In Rust:
 
 ```rust
+let signed_bytes: ethers_core::types::Bytes =
+    serde_json::to_vec(&relay_tx_request).unwrap().into();
+
 let pending = relay_server_provider
     .send_raw_transaction(signed_bytes)
     .await
@@ -520,41 +509,50 @@ log::info!(
 In Javacript:
 
 ```javascript
-const ecRecover = ethSigUtil.recoverTypedSignature(
-    {
-        data: dataToSign,
-        signature: sig,
-        version: ethSigUtil.SignTypedDataVersion.V4,
-    }
-);
+const forwardRequest =  {
+    domain,
+    types,
+    primaryType,
+    message,
+};
 
-const tx = {
-    forwardRequest: data,
+const relayTx = {
+    forwardRequest: forwardRequest,
     metadata: {
         signature : sig.substring(2)
     }
 };
 
-const rawTx = '0x' + Buffer.from(JSON.stringify(tx)).toString('hex');
-console.log(rawTx)
+const hexRawTx = '0x' + Buffer.from(JSON.stringify(relayTx)).toString('hex');
+console.log(hexRawTx)
 
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.open("POST", process.env.GAS_RELAYER_RPC_URL);
-xmlhttp.send(JSON.stringify({"jsonrpc": "2.0", "method": "eth_sendRawTransaction", "params": [rawTx], "id": 1}));
+xmlhttp.send(JSON.stringify({"jsonrpc": "2.0", "method": "eth_sendRawTransaction", "params": [hexRawTx], "id": 1}));
 ```
 
-### Step 7. try again with Rust command-line example
+### Step 6. try again with Rust command-line example
 
 Please check the [`gasless-counter-increment`](../gasless-counter-increment) command to automate all above and see how to call `increment` using Rust.
 
 ```bash
 # make sure you have all the variables set via "export" command
+# see above to get all the env vars for this DEVNET
+export EVM_CHAIN_RPC_URL=...
+export GAS_RELAYER_RPC_URL=...
+export TRUSTED_FORWARDER_CONTRACT_ADDRESS=...
+export DOMAIN_NAME=...
+export DOMAIN_VERSION=...
+export TYPE_NAME=...
+export TYPE_SUFFIX_DATA=...
+export GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS=...
+
 # or pass env vars directly to the "cargo" command
 cd ./avalanche-hackathon/glitch/2023/gasless-counter-increment
 cargo run gasless-counter-increment
 ```
 
-### Step 8. confirm "increment" result from the counter contract
+### Step 7. confirm "increment" result from the counter contract
 
 Once we send the message with signature, the counter should have incremented. To check, run the following:
 
