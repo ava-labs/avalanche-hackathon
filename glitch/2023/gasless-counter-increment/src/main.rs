@@ -63,48 +63,12 @@ async fn main() {
         "generated key {}",
         no_gas_key.to_public_key().to_eth_address()
     );
-
-    let no_gas_key_signer: ethers_signers::LocalWallet = no_gas_key.to_ethers_core_signing_key().into();
+    let no_gas_key_signer: ethers_signers::LocalWallet =
+        no_gas_key.to_ethers_core_signing_key().into();
 
     let chain_id = json_client_evm::chain_id(&evm_chain_rpc_url).await.unwrap();
     log::info!("fetched chain_id {chain_id}");
 
-    
-
-    fn increment_calldata() -> Vec<u8> {
-        // parsed function of "increment()"
-        let func = Function {
-            name: "increment".to_string(),
-            inputs: vec![],
-            outputs: Vec::new(),
-            constant: None,
-            state_mutability: StateMutability::NonPayable,
-        };
-        let arg_tokens = vec![];
-        abi::encode_calldata(func, &arg_tokens).unwrap()
-    }
-    
-    fn get_nonce_calldata(addr: H160) -> Vec<u8> {
-        // parsed function of "getNonce(address from)"
-        let func = Function {
-            name: "getNonce".to_string(),
-            inputs: vec![Param {
-                name: "from".to_string(),
-                kind: ParamType::Address,
-                internal_type: None,
-            }],
-            outputs: vec![Param {
-                name: "nonce".to_string(),
-                kind: ParamType::Uint(256),
-                internal_type: None,
-            }],
-            constant: None,
-            state_mutability: StateMutability::NonPayable,
-        };
-        let arg_tokens = vec![Token::Address(addr)];
-        abi::encode_calldata(func, &arg_tokens).unwrap()
-    }
-    
     let relay_server_provider = wallet_evm::new_provider(
         &gas_relayer_rpc_url,
         Duration::from_secs(15),
@@ -114,7 +78,7 @@ async fn main() {
     )
     .unwrap();
     log::info!("created gas relay server provider for {gas_relayer_rpc_url}");
-    
+
     let chain_rpc_provider = wallet_evm::new_provider(
         &evm_chain_rpc_url,
         Duration::from_secs(15),
@@ -124,7 +88,7 @@ async fn main() {
     )
     .unwrap();
     log::info!("created chain rpc server provider for {evm_chain_rpc_url}");
-    
+
     let tx = Eip1559TransactionRequest::new()
         .chain_id(chain_id.as_u64())
         .to(ethers::prelude::H160::from(
@@ -139,22 +103,13 @@ async fn main() {
         no_gas_key.to_public_key().to_h160(),
         forwarder_nonce_no_gas_key
     );
-    
-    // parsed function of "increment()"
-    let func = Function {
-        name: "increment".to_string(),
-        inputs: vec![],
-        outputs: Vec::new(),
-        constant: None,
-        state_mutability: StateMutability::NonPayable,
-    };
-    let arg_tokens = vec![];
-    let no_gas_recipient_contract_calldata = abi::encode_calldata(func, &arg_tokens).unwrap();
+
+    let no_gas_recipient_contract_calldata = increment_calldata();
     log::info!(
         "no gas recipient contract calldata: 0x{}",
         hex::encode(no_gas_recipient_contract_calldata.clone())
     );
-    
+
     let mut relay_tx = Tx::new()
         //
         // make sure this matches with "registerDomainSeparator" call
@@ -188,7 +143,7 @@ async fn main() {
         .type_name(type_name)
         //
         .type_suffix_data(type_suffix_data);
-    
+
     let chain_rpc_provider_arc = Arc::new(chain_rpc_provider);
     let relay_tx_request = relay_tx
         .sign_to_request_with_estimated_gas_with_retries(
@@ -201,10 +156,10 @@ async fn main() {
         .await
         .unwrap();
     log::info!("relay_tx_request: {:?}", relay_tx_request);
-    
+
     let signed_bytes: ethers_core::types::Bytes =
         serde_json::to_vec(&relay_tx_request).unwrap().into();
-    
+
     let pending = relay_server_provider
         .send_raw_transaction(signed_bytes)
         .await
@@ -216,3 +171,36 @@ async fn main() {
     );
 }
 
+fn increment_calldata() -> Vec<u8> {
+    // parsed function of "increment()"
+    let func = Function {
+        name: "increment".to_string(),
+        inputs: vec![],
+        outputs: Vec::new(),
+        constant: None,
+        state_mutability: StateMutability::NonPayable,
+    };
+    let arg_tokens = vec![];
+    abi::encode_calldata(func, &arg_tokens).unwrap()
+}
+
+fn get_nonce_calldata(addr: H160) -> Vec<u8> {
+    // parsed function of "getNonce(address from)"
+    let func = Function {
+        name: "getNonce".to_string(),
+        inputs: vec![Param {
+            name: "from".to_string(),
+            kind: ParamType::Address,
+            internal_type: None,
+        }],
+        outputs: vec![Param {
+            name: "nonce".to_string(),
+            kind: ParamType::Uint(256),
+            internal_type: None,
+        }],
+        constant: None,
+        state_mutability: StateMutability::NonPayable,
+    };
+    let arg_tokens = vec![Token::Address(addr)];
+    abi::encode_calldata(func, &arg_tokens).unwrap()
+}
