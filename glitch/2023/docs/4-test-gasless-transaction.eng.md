@@ -515,8 +515,6 @@ log::info!(
     pending.tx_hash(),
     no_gas_key.to_public_key().to_h160()
 );
-
-Ok(())
 ```
 
 In Javacript:
@@ -540,11 +538,23 @@ const tx = {
 const rawTx = '0x' + Buffer.from(JSON.stringify(tx)).toString('hex');
 console.log(rawTx)
 
-// TODO: POST the relay server
-// process.env.GAS_RELAYER_RPC_URL
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.open("POST", process.env.GAS_RELAYER_RPC_URL);
+xmlhttp.send(JSON.stringify({"jsonrpc": "2.0", "method": "eth_sendRawTransaction", "params": [rawTx], "id": 1}));
 ```
 
-### Step 7. confirm "increment" result from the counter contract
+### Step 7. try again with Rust command-line example
+
+Please check the [`gasless-counter-increment`](../gasless-counter-increment) command to automate all above and see how to call `increment` using Rust.
+
+```bash
+# make sure you have all the variables set via "export" command
+# or pass env vars directly to the "cargo" command
+cd ./avalanche-hackathon/glitch/2023/gasless-counter-increment
+cargo run gasless-counter-increment
+```
+
+### Step 8. confirm "increment" result from the counter contract
 
 Once we send the message with signature, the counter should have incremented. To check, run the following:
 
@@ -553,23 +563,24 @@ cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
 ${GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "getNumber()" | sed -r '/^\s*$/d' | tail -1
-# ???
+# 0x0000000000000000000000000000000000000000000000000000000000000001
+
+# after increment, the counter should go up by 1
+
+cast call \
+--rpc-url=${EVM_CHAIN_RPC_URL} \
+${GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
+"getNumber()" | sed -r '/^\s*$/d' | tail -1
+# 0x0000000000000000000000000000000000000000000000000000000000000002
 ```
 
 ```bash
+# address of the message signer, which had no gas but still able to increment the counter
 cast call \
 --rpc-url=${EVM_CHAIN_RPC_URL} \
 ${GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS} \
 "getLast()"
-# ???
-```
-
-### Step 8. try again with Rust command-line example
-
-Please check the [`gasless-counter-increment`](../gasless-counter-increment) command to automate all above and see how to call `increment` using Rust.
-
-```bash
-# TODO
+# 0x000000000000000000000000a5fc4b134c572e9aaf03cb1f56099ff717f3964a
 ```
 
 ## What's next?
