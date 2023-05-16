@@ -63,7 +63,7 @@ DEVNET faucet URL: **http://52.27.115.224:3031**
 
 Copy and paste your EVM address, and click "Request fund" button.
 
-![devnet-faucet-1](./img/devnet-faucet-1.png)
+![devnet-faucet](./img/devnet-faucet.png)
 
 ### Step 3. check balance
 
