@@ -10,7 +10,7 @@ The RPC URL of the Glitch Hackathon subnet is:
 
 ```bash
 # copy this for examples here
-export EVM_CHAIN_RPC_URL=http://aops-custom-202305-fXPSse-nlb-c126d65745880389.elb.us-west-2.amazonaws.com:9650/ext/bc/KFXPAPGtsvmKq76GdH3Y2ghjaqjhRhTkesiNEqL6E5a4YKRhB/rpc
+export EVM_CHAIN_RPC_URL=http://aops-custom-202305-2crvsg-nlb-1d600174371701f9.elb.ap-northeast-2.amazonaws.com:9650/ext/bc/XpX1yGquejU5cma1qERzkHKDh4fsPKs4NttnS1tErigPzugx5/rpc
 ```
 
 ## Install Foundry

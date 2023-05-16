@@ -4,8 +4,12 @@
 Rust command-line example for gasless transaction:
 
 ```bash
-EVM_CHAIN_RPC_URL=http://aops-custom-202305-fXPSse-nlb-c126d65745880389.elb.us-west-2.amazonaws.com:9650/ext/bc/KFXPAPGtsvmKq76GdH3Y2ghjaqjhRhTkesiNEqL6E5a4YKRhB/rpc \
-GAS_RELAYER_RPC_URL=http://gasrelay-202305-fWq13K-nlb-32d8051ce97ad01f.elb.us-west-2.amazonaws.com:9876/rpc-sync \
+cd ./avalanche-hackathon/glitch/2023/gasless-counter-increment
+```
+
+```bash
+EVM_CHAIN_RPC_URL=http://aops-custom-202305-2crvsg-nlb-1d600174371701f9.elb.ap-northeast-2.amazonaws.com:9650/ext/bc/XpX1yGquejU5cma1qERzkHKDh4fsPKs4NttnS1tErigPzugx5/rpc \
+GAS_RELAYER_RPC_URL=http://gasrelay-202305-MvNkRv-nlb-71ce073c82f4c5a7.elb.ap-northeast-2.amazonaws.com:9876/rpc-sync \
 TRUSTED_FORWARDER_CONTRACT_ADDRESS=0x52C84043CD9c865236f11d9Fc9F56aa003c1f922 \
 DOMAIN_NAME="my domain name" \
 DOMAIN_VERSION="my domain version" \

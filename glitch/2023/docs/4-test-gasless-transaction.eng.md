@@ -24,13 +24,13 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export GAS_RELAYER_RPC_URL=http://gasrelay-202305-fWq13K-nlb-32d8051ce97ad01f.elb.us-west-2.amazonaws.com:9876/rpc-sync
+export GAS_RELAYER_RPC_URL=http://gasrelay-202305-MvNkRv-nlb-71ce073c82f4c5a7.elb.ap-northeast-2.amazonaws.com:9876/rpc-sync
 ```
 
 Check the following links for more info:
 
-- http://gasrelay-202305-fWq13K-nlb-32d8051ce97ad01f.elb.us-west-2.amazonaws.com:9876/info
-- http://gasrelay-202305-fWq13K-nlb-32d8051ce97ad01f.elb.us-west-2.amazonaws.com:9876/health
+- http://gasrelay-202305-MvNkRv-nlb-71ce073c82f4c5a7.elb.ap-northeast-2.amazonaws.com:9876/info
+- http://gasrelay-202305-MvNkRv-nlb-71ce073c82f4c5a7.elb.ap-northeast-2.amazonaws.com:9876/health
 
 ## Set up a wallet
 
