@@ -4,6 +4,8 @@ _In the world of Avalanche, we refer to short-lived, test Subnets as Devnets._ (
 
 Ava Labs already set up a dedicated Glitch Hackathon subnet (DEVNET) using [subnet-evm](https://github.com/ava-labs/subnet-evm).
 
+*This DEVNET will be shut down at `Tue May 23 23:00:00 UTC 2023`. To keep your demos, please use screen recording.*
+
 ## RPC URL
 
 The RPC URL of the Glitch Hackathon subnet is:
