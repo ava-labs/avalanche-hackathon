@@ -14,6 +14,10 @@ _In the world of Avalanche, we refer to short-lived, test Subnets as Devnets._ (
 
 You can set up a local Avalanche network to quickly test your EVM contracts. The links below show how to connect to the local DEVNET and use a web wallet with the local DEVNET. If you are using public test(Fuji)/mainnet or [Glitch Hackathon DEVNET](#step-2-connect-to-glitch-hackathon-devnet-and-fund-the-wallet), you can skip this part. This step also explains how to fund your wallet that is needed for building apps and contract deployment.
 
+*해당 데브넷은 `Tue May 23 23:00:00 UTC 2023` 경 내릴 예정입니다. 데모 보존 등을 위해서는 스크린 레코딩 등을 이용해 주세요.*
+
+*This DEVNET will be shut down at `Tue May 23 23:00:00 UTC 2023`. To keep your demos, please use screen recording.*
+
 - [영어 문서 (English version)](./docs/1-connect-to-local-devnet-and-fund-the-wallet.eng.md)
 
 ## Step 2. Connect to Glitch Hackathon DEVNET and fund the wallet
