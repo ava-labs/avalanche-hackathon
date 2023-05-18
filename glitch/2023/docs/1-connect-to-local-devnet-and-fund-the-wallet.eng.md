@@ -6,6 +6,8 @@ The easiest way to test your contract is to spin up a local DEVNET to use its C-
 
 If you prefer testing with a Glitch Hackathon DEVNET, see [here](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md#rpc-url).
 
+*This DEVNET will be shut down at `Tue May 23 23:00:00 UTC 2023`. To keep your demos, please use screen recording.*
+
 ## RPC URL
 
 The RPC URL of the local DEVNNET is:
