@@ -194,14 +194,23 @@ echo $((16#a868))
 
 Use this chain Id and the RPC URL `${EVM_CHAIN_RPC_URL}` (e.g., `http://localhost:9650/ext/bc/C/rpc`) to connect to the local Avalanche DEVNET:
 
-![image1](./img/core-wallet-step-1-1.png)
-![image2](./img/core-wallet-step-2-1.png)
+![image1](./img/core-wallet-step-1.png)
 
 ### Step 2. import the test `ewoq` key using its hex-encoded private key
 
 Use the pre-funded key `56289e99c94b6912bfc12adc093c9b51124f0dc54ac7a766b2bc5ccf558d8027`.
 
-![image3](./img/core-wallet-step-2-2.png)
+Click the drop down next to your account name:
+
+![core-wallet-import-private-key-1](img/core-wallet-import-private-key-1.png)
+
+Click "imported" tab:
+
+![core-wallet-import-private-key-2](img/core-wallet-import-private-key-2.png)
+
+Import the hex-private key:
+
+![core-wallet-import-private-key-3](img/core-wallet-import-private-key-3-ewoq.png)
 
 ### Step 3. check balance
 
@@ -226,7 +235,7 @@ curl --location --request POST 'http://localhost:9650/ext/bc/P' \
 # {"jsonrpc":"2.0","result":{"balance":"30000000000000000",...
 ```
 
-![image4](./img/core-wallet-step-3.png)
+![core-wallet-step-2](./img/core-wallet-step-2.png)
 
 ### Step 4. transfer some tokens to another test key of zero balance
 
@@ -240,9 +249,9 @@ curl ${EVM_CHAIN_RPC_URL} \
 -d '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0x53C62F5d19f94556c4e9E9Ee97CeE274AB053399", "latest"],"id":0}'
 ```
 
-![image5](./img/core-wallet-step-4-1.png)
-![image6](./img/core-wallet-step-4-2.png)
-![image7](./img/core-wallet-step-4-3.png)
+![core-wallet-step-3-1](./img/core-wallet-step-3-1.png)
+![core-wallet-step-3-2](./img/core-wallet-step-3-2.png)
+![core-wallet-step-3-3](./img/core-wallet-step-3-3.png)
 
 ### Step 5. make sure the tokens got transfered by checking the balance of two accounts
 

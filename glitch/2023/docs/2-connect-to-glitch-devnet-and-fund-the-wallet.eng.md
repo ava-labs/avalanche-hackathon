@@ -57,7 +57,52 @@ And connect to the chain as follows:
 ![2](./img/core-glitch-hackathon-devnet-2.png)
 ![3](./img/core-glitch-hackathon-devnet-3.png)
 
-### Step 2. fund your wallet using Glitch Hackathon DEVNET faucet
+### Step 2. generate and import test private key
+
+For contract deployment with [Foundry](https://github.com/foundry-rs/foundry), you may need to use hex-encoded private key. Note that neither MetaMask nor Core supports key export in hex encoding. So, if you want to use [Foundry](https://github.com/foundry-rs/foundry) and Core wallet with the same key, we recommend generating a hotkey using [`avalanche-kms`](https://github.com/ava-labs/avalanche-ops/tree/main/avalanche-kms) command line interface 
+and importing the hex-encoded private key into Core wallet as follows:
+
+To generate a hotkey, first download `avalanche-kms` from the [Github release page](https://github.com/ava-labs/avalanche-ops/releases/tag/latest), and run the following command:
+
+```bash
+avalanche-kms create \
+--key-type hot \
+--keys 1
+```
+
+Sample outputs are:
+
+```yaml
+key_type: hot
+private_key_cb58: PrivateKey-zf6TUm8bfpmU4qfUQHzusn4bimccyanXNou1ubcKA1848w7oX
+
+# make sure to copy/paste to the wallet without "0x"
+private_key_hex: 0x82eab3bdabe8022afdecbf5b507eaa58533243adcbdf5620a398fceab143afdc
+
+addresses:
+  1:
+    x: X-avax1ynl26r0ewvjjvkt2gw4yzk9rrqtxrnddtqj7k7
+    p: P-avax1ynl26r0ewvjjvkt2gw4yzk9rrqtxrnddtqj7k7
+short_address: 4NcR73ZWY661erLJfgV2P1G8KmaNZ7BLU
+eth_address: 0x0104cDeB19a9075c73a0d487B0BB702e970eCAD6
+h160_address: 0x0104cdeb19a9075c73a0d487b0bb702e970ecad6
+```
+
+To import the key, click the drop down next to your Core account name:
+
+![core-wallet-import-private-key-1](img/core-wallet-import-private-key-1.png)
+
+Then click "imported" tab:
+
+![core-wallet-import-private-key-2](img/core-wallet-import-private-key-2.png)
+
+To import the hex-private key:
+
+![core-wallet-import-private-key-3](img/core-wallet-import-private-key-3.png)
+
+If you need funding on this account, use the [DEVNET faucet](#step-3-fund-your-wallet-using-glitch-hackathon-devnet-faucet) using the `eth_address`.
+
+### Step 3. fund your wallet using Glitch Hackathon DEVNET faucet
 
 We've set up a DEVNET faucet for Glitch Hackathon. Just paste your EVM address to get the funding. This faucet has rate limits to prevent DDoS attacks. Please reach out to Ava Labs staff for funding issues:
 
@@ -67,7 +112,7 @@ Copy and paste your EVM address, and click "Request fund" button.
 
 ![devnet-faucet](./img/devnet-faucet.png)
 
-### Step 3. check balance
+### Step 4. check balance
 
 You can copy and paste your EVM address, and check "Check balance".
 

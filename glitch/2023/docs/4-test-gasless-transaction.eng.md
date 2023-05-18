@@ -6,7 +6,8 @@ This step shows how to make gasless transactions in Avalanche EVM chains, using 
 
 You will need the following in this tutorial:
 
-- [foundry](https://github.com/foundry-rs/foundry) to deploy/test simple EIP-2771 compliant smart contracts
+- [Foundry](https://github.com/foundry-rs/foundry) to deploy/test simple EIP-2771 compliant smart contracts
+- Pre-funded wallet and its hex-encoded private key -- see ["generate and import test private key"](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md#step-2-generate-and-import-test-private-key)
 - Rust or Javascript -- we show examples in both languages, you can choose either one
 - Avalanche EVM chain RPC URLs (to be provided below, by Ava Labs -- see [Glitch Hackathon DEVNET RPC URL](./2-connect-to-glitch-devnet-and-fund-the-wallet.eng.md#rpc-url))
 - Avalanche gas relayer RPC URLs (to be provided below, by Ava Labs -- see [section below](#avalanche-gas-relayer-rpc-urls))
