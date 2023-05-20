@@ -59,7 +59,7 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export TRUSTED_FORWARDER_CONTRACT_ADDRESS=0xFA2562F4A6581fECa7b19379894B50FbF95ba350
+export TRUSTED_FORWARDER_CONTRACT_ADDRESS=0xC8d2c53fE31e4Ff2e3BDb33218E504836482D546
 ```
 
 ## Registered domain name and verion
@@ -70,8 +70,8 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export DOMAIN_NAME="my domain name"
-export DOMAIN_VERSION="my domain version"
+export DOMAIN_NAME="AAAA Platform"
+export DOMAIN_VERSION="1"
 ```
 
 ## Registered type name and suffix data string
@@ -82,7 +82,7 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export TYPE_NAME="my type name"
+export TYPE_NAME="Message"
 export TYPE_SUFFIX_DATA="bytes32 ABCDEFGHIJKLMNOPQRSTGSN)"
 ```
 
@@ -93,7 +93,7 @@ Ava Labs has already deployed the [`GaslessCounter` contract](../../../src/Gasle
 Use the following as the recipient contract address:
 
 ```bash
-export GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS=0xB79AeEfB71931397c7c1c785127Ba4e76D44eB8B
+export GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS=0x175243D787c1555C84Fc4B9934d6f4E8662f7dE3
 ```
 
 ## Call the contract with zero balance
@@ -421,7 +421,7 @@ Once we sign the EIP-712 message, we need to send the message to the gas relayer
             "name": "my name",
             "version": "1",
             "chainId": "0xa868",
-            "verifyingContract": "0xFA2562F4A6581fECa7b19379894B50FbF95ba350"
+            "verifyingContract": "0xC8d2c53fE31e4Ff2e3BDb33218E504836482D546"
         },
         "types": {
             "EIP712Domain": [
@@ -479,7 +479,7 @@ Once we sign the EIP-712 message, we need to send the message to the gas relayer
             "from": "0xc886c5a4939c8835bf7bf643f3dbcadc6eb242d1",
             "gas": "0x1d0f6",
             "nonce": "0x0",
-            "to": "0xB79AeEfB71931397c7c1c785127Ba4e76D44eB8B",
+            "to": "0x175243D787c1555C84Fc4B9934d6f4E8662f7dE3",
             "validUntilTime": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
             "value": "0x0"
         }
