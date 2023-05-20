@@ -157,6 +157,9 @@ async fn main() {
         .unwrap();
     log::info!("relay_tx_request: {:?}", relay_tx_request);
 
+    let req_for_debug = serde_json::to_string_pretty(&relay_tx_request).unwrap();
+    log::info!("sending this EIP-712 signed message:\n{req_for_debug}\n");
+
     let signed_bytes: ethers_core::types::Bytes =
         serde_json::to_vec(&relay_tx_request).unwrap().into();
 
