@@ -25,13 +25,13 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export GAS_RELAYER_RPC_URL=http://gasrelay-202305-MvNkRv-nlb-71ce073c82f4c5a7.elb.ap-northeast-2.amazonaws.com:9876/rpc-sync
+export GAS_RELAYER_RPC_URL=http://gasrelay-202305-38hlg2-nlb-4deb54783e33031b.elb.ap-northeast-2.amazonaws.com:9876/rpc-sync
 ```
 
 Check the following links for more info:
 
-- http://gasrelay-202305-MvNkRv-nlb-71ce073c82f4c5a7.elb.ap-northeast-2.amazonaws.com:9876/info
-- http://gasrelay-202305-MvNkRv-nlb-71ce073c82f4c5a7.elb.ap-northeast-2.amazonaws.com:9876/health
+- http://gasrelay-202305-38hlg2-nlb-4deb54783e33031b.elb.ap-northeast-2.amazonaws.com:9876/info
+- http://gasrelay-202305-38hlg2-nlb-4deb54783e33031b.elb.ap-northeast-2.amazonaws.com:9876/health
 
 ## Set up a wallet
 
@@ -59,7 +59,7 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export TRUSTED_FORWARDER_CONTRACT_ADDRESS=0x52C84043CD9c865236f11d9Fc9F56aa003c1f922
+export TRUSTED_FORWARDER_CONTRACT_ADDRESS=0xC8d2c53fE31e4Ff2e3BDb33218E504836482D546
 ```
 
 ## Registered domain name and verion
@@ -70,8 +70,8 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export DOMAIN_NAME="my domain name"
-export DOMAIN_VERSION="my domain version"
+export DOMAIN_NAME="AAAA Platform"
+export DOMAIN_VERSION="1"
 ```
 
 ## Registered type name and suffix data string
@@ -82,8 +82,8 @@ Use the following:
 
 ```bash
 # copy this for examples here
-export TYPE_NAME="my type name"
-export TYPE_SUFFIX_DATA="bytes8 typeSuffixDatadatadatada)"
+export TYPE_NAME="Message"
+export TYPE_SUFFIX_DATA="bytes32 ABCDEFGHIJKLMNOPQRSTGSN)"
 ```
 
 ## Simple counter contract address
@@ -93,7 +93,7 @@ Ava Labs has already deployed the [`GaslessCounter` contract](../../../src/Gasle
 Use the following as the recipient contract address:
 
 ```bash
-export GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS=0x5DB9A7629912EBF95876228C24A848de0bfB43A9
+export GASLESS_COUNTER_RECIPIENT_CONTRACT_ADDRESS=0x175243D787c1555C84Fc4B9934d6f4E8662f7dE3
 ```
 
 ## Call the contract with zero balance
@@ -343,8 +343,8 @@ import * as ethUtil from 'ethereumjs-util'
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.EVM_CHAIN_RPC_URL))
 
 const domain = {
-    name: DOMAIN_NAME,
-    version: DOMAIN_VERSION,
+    name: process.env.DOMAIN_NAME,
+    version: process.env.DOMAIN_VERSION,
     chainId: ethUtil.bnToHex(await web3.eth.getChainId()),
     verifyingContract: process.env.TRUSTED_FORWARDER_CONTRACT_ADDRESS,
     salt:null
@@ -352,10 +352,10 @@ const domain = {
 
 const types = {
     EIP712Domain: [
-        {name: 'name',type: 'string',},
-        {name: 'version',type: 'string',},
-        {name: 'chainId',type: 'uint256'},
-        {name: 'verifyingContract',type: 'address',},
+        {name: 'name', type: 'string' },
+        {name: 'version', type: 'string' },
+        {name: 'chainId', type: 'uint256' },
+        {name: 'verifyingContract', type: 'address' },
     ],
     Message: [
         { name: 'from', type: 'address' },
@@ -365,7 +365,7 @@ const types = {
         { name: 'nonce', type: 'uint256' },
         { name: 'data', type: 'bytes' },
         { name: 'validUntilTime', type: 'uint256' },
-        { name: 'typeSuffixDatadatadatada', type: 'bytes32'},
+        { name: 'ABCDEFGHIJKLMNOPQRSTGSN', type: 'bytes32'},
     ]
 };
 
@@ -388,13 +388,13 @@ const dataToSign =  {
     primaryType,
     message: {
         ...message,
-        typeSuffixDatadatadatada: Buffer.from(process.env.TYPE_SUFFIX_DATA, 'utf8'),
+        ABCDEFGHIJKLMNOPQRSTGSN: Buffer.from(process.env.TYPE_SUFFIX_DATA, 'utf8'),
     },
 };
 
 const sig = ethSigUtil.signTypedData(
     {
-        privateKey: Buffer.from(FROM_ADDRESS_PK, 'hex'),
+        privateKey: Buffer.from(process.env.HEX_ENCODED_PRIVATE_KEY, 'hex'),
         data: dataToSign,
         version: ethSigUtil.SignTypedDataVersion.V4,
     }
@@ -421,7 +421,7 @@ Once we sign the EIP-712 message, we need to send the message to the gas relayer
             "name": "my name",
             "version": "1",
             "chainId": "0xa868",
-            "verifyingContract": "0x52c84043cd9c865236f11d9fc9f56aa003c1f922"
+            "verifyingContract": "0xC8d2c53fE31e4Ff2e3BDb33218E504836482D546"
         },
         "types": {
             "EIP712Domain": [
@@ -479,7 +479,7 @@ Once we sign the EIP-712 message, we need to send the message to the gas relayer
             "from": "0xc886c5a4939c8835bf7bf643f3dbcadc6eb242d1",
             "gas": "0x1d0f6",
             "nonce": "0x0",
-            "to": "0x5db9a7629912ebf95876228c24a848de0bfb43a9",
+            "to": "0x175243D787c1555C84Fc4B9934d6f4E8662f7dE3",
             "validUntilTime": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
             "value": "0x0"
         }
