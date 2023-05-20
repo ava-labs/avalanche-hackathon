@@ -352,10 +352,10 @@ const domain = {
 
 const types = {
     EIP712Domain: [
-        {name: 'name', type: 'string',},
-        {name: 'version', type: 'string',},
-        {name: 'chainId', type: 'uint256'},
-        {name: 'verifyingContract', type: 'address',},
+        {name: 'name', type: 'string' },
+        {name: 'version', type: 'string' },
+        {name: 'chainId', type: 'uint256' },
+        {name: 'verifyingContract', type: 'address' },
     ],
     Message: [
         { name: 'from', type: 'address' },
@@ -394,7 +394,7 @@ const dataToSign =  {
 
 const sig = ethSigUtil.signTypedData(
     {
-        privateKey: Buffer.from(FROM_ADDRESS_PK, 'hex'),
+        privateKey: Buffer.from(process.env.HEX_ENCODED_PRIVATE_KEY, 'hex'),
         data: dataToSign,
         version: ethSigUtil.SignTypedDataVersion.V4,
     }
