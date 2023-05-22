@@ -4,6 +4,19 @@
 
 Welcome to [Glitch Hackathon 2023](https://glitch-hack.com)! This page contains all the information you need to participate in the [Avalanche track mission](https://trinity-studio.notion.site/GLITCH-KOREA-TRACK-GUIDE-1509d049e1b84ef49f737af5398541c8). Please check out the following links to get access to our Hackathon infra (e.g., test tokens, wallet integration, chain RPCs).
 
+## Update
+
+The first winner was "DON'T GAS", a gasless DeFi platform that used Ava Labs' gas relayer and implemented native integration with Core wallet. The delivered an end-to-end product and identified a critical bug in the gas relayer server and errors in our documentation:
+- Demo: https://www.youtube.com/watch?v=hVbh6x7Q6Ig
+- Hackathon pitch: https://www.youtube.com/live/ZBeg_L5lyy8?t=2160 (in English)
+- Code: https://github.com/web3oj-hackathon/hackathon-core
+
+The second winner was TODO.
+
+The third winner was TODO.
+
+Thank you all for the participation.
+
 ## (Optional) Step 1. Connect to local DEVNET and fund the wallet
 
 아발란체는 테스트용으로 셋업한, 단기간만 쓰도록 설계된 네트워크를 데브넷이라 칭합니다.
