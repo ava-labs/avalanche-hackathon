@@ -6,16 +6,20 @@ Welcome to [Glitch Hackathon 2023](https://glitch-hack.com)! This page contains 
 
 ## Update
 
-The first winner was "DON'T GAS", a gasless DeFi platform that used Ava Labs' gas relayer and implemented native integration with Core wallet. The delivered an end-to-end product and identified a critical bug in the gas relayer server and errors in our documentation:
+The first-place winner was "DON'T GAS", a gasless DeFi platform that used Ava Labs' gas relayer and implemented native integration with Core wallet. The delivered an end-to-end product and identified a critical bug in the gas relayer server and errors in our documentation:
 - Demo: https://www.youtube.com/watch?v=hVbh6x7Q6Ig
 - Hackathon pitch: https://www.youtube.com/live/ZBeg_L5lyy8?t=2160 (in English)
 - Code: https://github.com/web3oj-hackathon/hackathon-core
 
-The second winner was TODO.
+The second-place winner was https://app.glitch-hack.com/project_detail/65.
 
-The third winner was TODO.
+The third-place winner was https://app.glitch-hack.com/project_detail/52.
 
-Thank you all for the participation.
+Thank you all for the participation!
+
+Over >600 faucet requests:
+
+![faucet-results-2023-05-23](./docs/img/faucet-results-2023-05-23.png)
 
 ## (Optional) Step 1. Connect to local DEVNET and fund the wallet
 
